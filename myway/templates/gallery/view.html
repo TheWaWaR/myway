@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}View Image{% endblock %}
+{% block title %}{{ image.title }}{% endblock %}
 
 {% block css_extra %}
 <!-- Lightbox2 -->
@@ -28,6 +28,6 @@
 {% block row %}
   <div class="five">
     {% from "macros/gallery.html" import render_image %}
-    {{ render_image(image) }}
+    {{ render_image(image, class='gallery-item') }}
   </div>
 {% endblock %}

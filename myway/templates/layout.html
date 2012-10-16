@@ -104,6 +104,14 @@
 	<div class="row">
 
           {% block row %}
+	  <div class="threequarter">
+            {% block three %}
+            {% block main %}
+
+            {% endblock %}
+            {% endblock %}
+	  </div>
+
 	  <div class="quarter">
             {% block one %}
             {% block sidebar %}
@@ -116,14 +124,6 @@
 	    <!-- </ul> -->
             {% endblock %}
 	    {% endblock %}
-	  </div>
-
-	  <div class="threequarter">
-            {% block three %}
-            {% block main %}
-
-            {% endblock %}
-            {% endblock %}
 	  </div>
           {% endblock %}
 	</div>

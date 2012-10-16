@@ -71,7 +71,6 @@ class Thumb(db.Model):
     @property
     def save_name(self):
         import os
-        from flask import current_app
         upload_folder = current_app.config['UPLOAD_FOLDER']
         return os.path.join(upload_folder, self.filename)
         
