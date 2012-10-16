@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}View Image{% endblock %}
+
+{% block css_extra %}
+<!-- Lightbox2 -->
+<link rel="stylesheet" href="/static/css/lightbox2/lightbox.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block js_extra %}
+<!-- Lightbox2 -->
+<script src="/static/js/lightbox2/jquery-1.7.2.min.js"></script>
+<script src="/static/js/lightbox2/lightbox.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+     $('.gallery-item img').click();
+ });
+</script>
+{% endblock %}
+
+{% block nav_sub %}
+<ul>
+  <li><a href="/gallery/">List</a></li>
+  <li><a href="/gallery/upload">Upload</a></li>
+</ul>
+{% endblock %}
+
+{% block row %}
+  <div class="five">
+    {% from "macros/gallery.html" import render_image %}
+    {{ render_image(image) }}
+  </div>
+{% endblock %}

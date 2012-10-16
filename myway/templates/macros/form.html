@@ -1,0 +1,25 @@
+
+{% macro render_field(field, is_100=False, class='') %}
+<li>
+  {% if field.errors %}
+  {% set error, class = field.errors[0], class + ' input-error' %}
+  {% endif %}
+  
+  {% if class.find('width-100') > -1 %}
+  {% set is_100 = True %}
+  {% endif %}
+
+  {% if is_100 %}<fieldset> <section>{% endif %}
+  <label class="bold" for="{{ field.id }}">
+    {{ field.label.text }}
+    {% if field.flags.required %}<span class="req">*</span>{% endif %}
+  </label>
+  {% if is_100 %}</section>{% endif %}
+  
+  {{ field(class=class, **kwargs) }}
+  <span class="error">{{ error|e }}</span>
+  {% if is_100 %}</fieldset>{% endif %}
+  
+</li>
+{% endmacro %}
+

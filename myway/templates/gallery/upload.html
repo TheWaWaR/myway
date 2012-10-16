@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload Image{% endblock %}
+
+{% block nav_sub %}
+<ul>
+  <li><a href="/gallery/">List</a></li>
+  <li><a href="/gallery/upload">Upload</a></li>
+</ul>
+{% endblock %}
+
+
+{% block sidebar %}
+  {% from "macros/gallery.html" import render_flash %}
+<div class="">
+  {{ render_flash() }}
+</div>
+{% endblock %}
+
+{% block main %}
+  <div class="">
+    <form method="POST" action="/gallery/upload" enctype=multipart/form-data class="forms columnar">
+      <fieldset>
+        <legend>上传图片</legend>
+        <ul>
+          {{ form.hidden_tag() }}
+          {% from "macros/form.html" import render_field %}
+          {{ render_field(form.image) }}
+          {{ render_field(form.title, style="height:80px;width:360px;") }}
+          <li>
+            <label></label>
+            <input type="submit" class="btn" value="上传" />
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

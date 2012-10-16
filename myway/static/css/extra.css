@@ -1,0 +1,57 @@
+
+/* Flash messages */
+.flash {
+}
+
+.flash .error{
+    color: #da3e5a;
+}
+
+.flash .info{
+    color: orange;
+}
+
+.flash .success{
+    color: #18a011;
+}
+
+/* Gallery.main */
+.gallery-item {
+    text-align: center;
+    margin: 10px 0 10px -10px;
+    padding:0px 10px;
+}
+.gallery-item img{
+    border-radius: 3px;
+    background: #FBFBF2;
+    padding:5px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 4px;
+}
+
+
+/* Menu in sidebar(gallery) */
+.row-menu {
+    height: 0;
+    display: none;
+    position: absolute;
+    margin-top: 3px;
+}
+
+.row-menu .btn-group{
+    display: block;
+    position: relative;
+    width: 101%;
+    float: right;
+    padding-right: 2px;
+    margin-right: 100%;
+}
+
+.row-menu .btn-group .btn{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.list-toc li:hover .row-menu{
+    display: block;
+}
+

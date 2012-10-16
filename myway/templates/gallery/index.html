@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}Gallery{% endblock %}
+
+{% block css_extra %}
+<!-- Lightbox2 -->
+<link rel="stylesheet" href="/static/css/lightbox2/lightbox.css" type="text/css" media="screen" />
+<link type="text/css" href="/static/css/simplemodal/basic.css" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block js_extra %}
+<!-- Lightbox2 -->
+<script src="/static/js/lightbox2/jquery-1.7.2.min.js"></script>
+<script src="/static/js/lightbox2/lightbox.js"></script>
+<script type="text/javascript" src="/static/js/simplemodal/jquery.simplemodal.js"></script>
+<script type="text/javascript" src="/static/js/simplemodal/basic.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.list-toc li .btn-delete').each(function(index){
+            var target = $(this).attr('rel');
+            var title = $('.list-toc li>a:eq(' + index + ')').text().trim();
+            $(this).click(function(){
+                $dialog = $('#delete-dialog-modal');
+                $dialog.find('.btn').attr('href', target);
+                $dialog.find('.title').text(title);
+                $dialog.modal();
+            });
+        });
+
+        $('.list-toc li .btn-edit').each(function(index){
+            var target = $(this).attr('rel');
+            var title = $('.list-toc li>a:eq(' + index + ')').text().trim();
+            $(this).click(function(){
+                $dialog = $('#edit-dialog-modal');
+                $dialog.find('form').attr('action', target);
+                $dialog.find(':input[name="title"]').val(title);
+                $dialog.modal();
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block nav_sub %}
+<ul>
+  <li><a href="/gallery/">List</a></li>
+  <li><a href="/gallery/upload">Upload</a></li>
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+<div>
+  <div id="delete-dialog-modal" style="display:none;">
+    <p><span class="opt">Delete<span> (<span class="title"></span>) ?</p>
+    <div class="">
+      <a class="btn bold red" href="#">Delete</a>
+    </div>
+  </div>
+  <div id="edit-dialog-modal" style="display:none;">
+    <form method="GET" action="#" class="forms columnar">
+      <ul>
+        <li><input type="text" name="title" value="" class="width-100" /></li>
+        <li><input type="submit" value="Change" class="btn bold" /> </li>
+      </ul>
+    </form>
+  </div>
+
+  <div class="search">
+    <form method="GET" id="" action="/gallery/">
+      <ul class="list-toc">
+        <li>
+          <input type="text" name="key" class="input-search"
+                 placeholder="Search Gallery" value="{{ key }}">
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  <div class="">
+    <ul class="list-toc">
+      {% for img in images %}
+      <li>
+        <div class="row-menu">
+          <div class="btn-group" >
+            <a rel="{{ url_for('gallery.delete', id=img.id) }}"
+               class="btn btn-delete">Delete</a>
+            <a rel="{{ url_for('gallery.edit', id=img.id) }}"
+               class="btn btn-edit">Edit</a>
+          </div>
+        </div>
+        <a href="{{ url_for('gallery.view', id=img.id) }}">
+          {{ img.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="">
+  {% from "macros/gallery.html" import render_flash %}
+  {{ render_flash() }}
+</div>
+{% endblock %}    
+
+{% block main %}
+<div class="" >
+  <ul class="list-toc">
+    {% from "macros/gallery.html" import render_images %}
+    {{ render_images(images) }}
+  </ul>
+</div>
+{% endblock %}
+

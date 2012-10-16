@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/kube/kube.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/kube/screen.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/kube/master.css" /> -->
+    {% block css_extra %}{% endblock %}
+    
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>	
+    {% block js_extra %}{% endblock %}
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->		
+       </head>
+  <body class="kubepage" screen_capture_injected="true">
+    {% block top %}
+    <div id="top">
+      <div id="top_inner">
+	<div id="logo"><a href="http://www.douban.com/people/buzhoukuangtu/"></a></div>
+	<div id="desc">Where I am...</div>
+	<ul id="appendix">
+	  <li id="maillink"></li>
+	  <li><a href="http://www.douban.com/people/buzhoukuangtu/" id="twitterlink">Follow me on Douban</a></li>
+	</ul>
+      </div>
+    </div>
+    {% endblock %}
+    
+    {% block wrapper %}
+    <div class="wrapper">
+      {% block page %}
+      <div id="page">
+        
+        <header id="header">
+	  <h3><a href="/">Weet</a></h3>
+	  <nav id="nav">
+            <ul>
+              {% block header %}
+              <li><a href="/blog/">Blog</a></li>      <!-- Blog -->
+              <li><span>Gallery</span></li>           <!-- Gallery -->
+              <li><a href="/chat/">Chat</a></li>      <!-- Chat -->
+              <li><a href="/project">Project</a></li> <!-- Project -->
+              <li><a href="/mldonkey/">Mldonkey</a></li> <!-- Mldonkey -->
+              <li><a href="/vps/">VPS</a></li>           <!-- VPS -->
+              {% endblock %}
+            </ul>
+          </nav>		
+        </header>
+        
+        {% block main %}
+        <div id="main">
+          {% block main_head %}
+          <header id="main-head">
+            <h2>{% block main_head_context %}Gallery{% endblock %}<h2>
+          </header>
+          {% endblock %}
+          {% block row %}
+          <div class="row">
+            {% block row_Four_One %}{% endblock %}      <!-- For [Blog, Gallery, Chat] -->
+            {% block row_One_Four %}{% endblock %}      <!-- For Project -->
+            {% block row_All %}{% endblock %}           <!-- For [Mldonkey, VPS] -->
+          </div>
+          {% endblock %}
+        </div>
+        {% endblock %}
+      </div>
+      <footer id="footer">© <a href="http://www.douban.com/people/buzhoukuangtu/">weet</a>
+        1989-2012</footer>
+      {% endblock %}
+    </div>
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/kube/kube.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/kube/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/extra.css" />
+    {% block css_extra %}{% endblock %}
+    
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>	
+    {% block js_extra %}{% endblock %}
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->		
+       </head>
+  <body class="kubepage" screen_capture_injected="true">
+    
+    <header id="header">
+      <div id="logo"><a href="http://imperavi.com/"></a></div>
+      <a href="http://twitter.com/imperavi" id="twitter-link">Follow us on Twitter</a>		
+
+      {% block auth_area %}
+      <ul id="auth-area">
+	<li><span>Client office</span></li>
+	<li><a href="http://imperavi.com/kube/typo/#" id="login-link">Log in</a></li>
+	<li><a href="http://imperavi.com/kube/typo/#" id="signup-link">Sign up</a></li>		
+      </ul>
+      {% endblock %}
+
+      {% block login_form_box %}
+      <div class="arrow-box" id="loginForm-box" style="display: none;">
+	<form id="loginForm" action="" method="post" class="forms">
+	  <ul>
+	    <li><label>Email</label><input type="text" name="user_email" class="width-100"> </li>
+	    <li><label>Password</label><input type="password" name="user_password" class="width-100"></li>
+	    <li><a href="http://imperavi.com/password-recovery/" class="small gray">Forgot password?</a></li>
+	    <li>
+              <button id="login-btn" name="send" class="btn">Log in</button>&nbsp;&nbsp;<a href="http://imperavi.com/kube/typo/#" class="small gray">Cancel</a>
+            </li>
+	  </ul>
+	</form>
+      </div>
+      {% endblock %}
+
+      {% block reg_form_box %}
+      <div class="arrow-box" id="regForm-box" style="display: none;">
+	<form id="regForm" action="" method="post" class="forms">
+	  <ul>
+	    <li><label>Your name</label><input type="text" name="user_name" class="width-100"></li>
+	    <li><label>Email</label><input type="text" name="user_email" class="width-100"></li>
+	    <li><label>Password</label><input type="password" name="user_password" class="width-100"></li>
+	    <li>
+	      <button id="reg-btn" name="send" class="btn">Sign up</button>&nbsp;&nbsp;<a href="http://imperavi.com/kube/typo/#" class="small gray">Cancel</a>
+	    </li>
+	  </ul>
+	</form>
+      </div>
+      {% endblock %}
+      
+    </header>
+
+    
+    <div class="wrapper">
+      <nav id="nav">
+        {% block nav %}
+	<ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/gallery/">Gallery</a></li>
+          <li><a href="/chat/">Chat</a></li>
+          <li><a href="/project/">Project</a></li>
+          <li><a href="/mldonkey/">Mldonkey</a></li>
+          <li><a href="/vps/">VPS</a></li> <!-- class="last" -->
+        </ul>
+        {% endblock %}
+      </nav>
+      
+      <header id="header-sub">
+	<h2><a href="http://imperavi.com/kube/">Kube</a></h2>
+        {% block nav_sub %}
+	<ul>
+          <li><a href="http://imperavi.com/kube/">Download</a></li>
+          <li><span>Typography</span></li>
+          <li><a href="http://imperavi.com/kube/grid/">Grid</a></li>
+          <li><a href="http://imperavi.com/kube/forms/">Forms</a></li>
+          <li><a href="http://imperavi.com/kube/tables/">Tables</a></li>
+          <li><a href="http://imperavi.com/kube/goodies/">Goodies</a></li>
+          <li><a href="http://imperavi.com/kube/buttons/">Buttons</a></li>
+        </ul>
+        {% endblock %}
+      </header>
+
+    </div>	
+
+    <div id="box-inside-white">
+      <div class="wrapper">
+	<div class="row">
+
+          {% block row %}
+	  <div class="quarter">
+            {% block one %}
+            {% block sidebar %}
+	    <!-- <ul class="list-toc"> -->
+	    <!--   <li><a href="http://imperavi.com/kube/typo/#toc-inline">Inline elements</a></li> -->
+	    <!--   <li><a href="http://imperavi.com/kube/typo/#toc-preformatted">Preformatted text</a></li> -->
+	    <!--   <li><a href="http://imperavi.com/kube/typo/#toc-blockquotes">Blockquotes</a></li> -->
+	    <!--   <li><a href="http://imperavi.com/kube/typo/#toc-lists">Lists</a></li> -->
+	    <!--   <li><a href="http://imperavi.com/kube/typo/#toc-figure">Figure</a></li>	 -->
+	    <!-- </ul> -->
+            {% endblock %}
+	    {% endblock %}
+	  </div>
+
+	  <div class="threequarter">
+            {% block three %}
+            {% block main %}
+
+            {% endblock %}
+            {% endblock %}
+	  </div>
+          {% endblock %}
+	</div>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <footer id="footer">
+	<ul>
+          <li><a href="http://imperavi.com/redactor/">Redactor</a></li>
+          <li><a href="http://imperavi.com/kube/">Kube</a></li>
+          <li><a href="http://imperavi.com/about/">About</a></li>
+          <li><a href="http://imperavi.com/support/">Support</a></li>
+          <li class="last"><a href="http://twitter.com/imperavi">Follow us on Twitter</a></li>
+        </ul>	
+	<p>© weet 1989-2012</p>
+      </footer>
+    </div>
+  </body>
+</html>

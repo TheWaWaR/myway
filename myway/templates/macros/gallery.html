@@ -1,0 +1,35 @@
+
+{% macro render_flash() %}
+{% with messages=get_flashed_messages(with_categories=True) %}
+{% if messages %}
+<ul class="flash">
+  {% for category, message in messages %}
+  <li class="{{ category }}">{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+{% endmacro %}
+
+{% macro render_image(img, group_tag='') %}
+<a href="{{ img.link }}" id="image_{{ img.id }}"
+   rel="lightbox{{ group_tag }}"  title="{{ img.title }}">
+  {% if img.thumb %}
+  <div class="gallery-item">
+    <img align="middle" src="{{ img.thumb.link }}">
+  </div>
+  {% else %}
+  {{ img.title }}
+  {% endif %}
+</a>
+{% endmacro %}
+
+
+{% macro render_images(imgs, group_tag='[myimages]')%}
+{% for img in imgs %}
+<li>
+  {{ render_image(img, group_tag=group_tag) }}  
+</li>
+{% endfor %}
+{% endmacro %}
