@@ -2,8 +2,9 @@
 
 {% block title %}Upload Image{% endblock %}
 
-{% block content %}
-  <div class="">
+{% block main %}
+  <div class="row">
+  <div class="threequarter centered">
     <form method="POST" action="/gallery/upload" enctype=multipart/form-data class="forms columnar">
       {% from "macros/form.html" import render_field %}
       {{ form.hidden_tag() }}
@@ -20,5 +21,6 @@
         </ul>
       </fieldset>
     </form>
+  </div>
   </div>
 {% endblock %}
