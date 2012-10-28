@@ -1,4 +1,0 @@
-* Registe required
-* One user one channel
-* Mail notify (from postfix to Gmail)
-** message come

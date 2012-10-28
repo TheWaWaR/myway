@@ -1,0 +1,18 @@
+* Technology Stack 
+** Fabric (Deployment)                                                 :Need_Learn:
+** Flask
+** Tornado
+** SQLAlchemy
+** Jinja2
+** Mysql --> PostgreSQL                                          :Need_Learn:
+** JQuery
+** HighCharts (Mldonkey speed info)
+** Kube framework (CSS)
+
+* Features
+** Markdown support
+** Org-mode support   
+** Send Mail support
+** Code Block support
+** Pretty Chart show (by HighCharts)
+** Configuration support (by py file)

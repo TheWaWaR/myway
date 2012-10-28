@@ -9,11 +9,10 @@
 
 {% block js_extra %}
 <!-- Lightbox2 -->
-<script src="/static/js/lightbox2/jquery-1.7.2.min.js"></script>
-<script src="/static/js/lightbox2/lightbox.js"></script>
+<!-- <script src="/static/js/lightbox2/lightbox.js"></script> -->
 <script type="text/javascript">
  $(document).ready(function(){
-     $('.gallery-item img').click();
+     // $('.gallery-item img').click();
  });
 </script>
 {% endblock %}
@@ -25,7 +24,7 @@
 </ul>
 {% endblock %}
 
-{% block row %}
+{% block main %}
   <div class="five">
     {% from "macros/gallery.html" import render_image %}
     {{ render_image(image, class='gallery-item') }}

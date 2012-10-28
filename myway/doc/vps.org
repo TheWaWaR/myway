@@ -1,1 +1,0 @@
-* Juest a Web CLI (Command line interface)

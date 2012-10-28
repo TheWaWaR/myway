@@ -1,8 +1,0 @@
-* DONE *First TODO*
-# --------------------
-* DONE Upload image
-* DONE Delete image
-* DONE Edit image title
-* DONE Search image
-* DONE View Image (Lightbox2)
-* DONE Show images (Lightbox2)

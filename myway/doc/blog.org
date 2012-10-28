@@ -1,6 +1,0 @@
-* Post (just a post)
-* Recent Post (sidebar)
-* Blog Archive (page)
-* DISQUS support
-* MarkDown support
-* Org-mode support (option)  

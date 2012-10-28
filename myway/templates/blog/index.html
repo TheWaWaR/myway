@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Blog Home{% endblock %}
+
+{% block sidebar %}
+  {% if articles %}
+  <div class="recent-articles">
+    <ul class="list-toc">
+      {% for article in articles %}
+      <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <div class="sidebar-menu">
+    <ul class="list-toc">
+      <li><a href="/blog/">Home</a></li>
+      <li><a href="/blog/new">New</a></li>
+    </ul>
+  </div>
+{% endblock %}
+  
+{% block content %}
+  <div class="" >
+    {% for article in articles %}
+    <div class="article">
+      <h1 class="title">{{ article.title }}</h1>
+      {{ article.content | safe }}
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
