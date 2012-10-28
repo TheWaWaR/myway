@@ -2,7 +2,13 @@
 #coding=utf-8
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from myway.utils import db
+from myway.utils import db, navbar
 
-chatview = Blueprint('chat', __name__)
+moduleid = 'chat'
+chatview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 
+@chatview.context_processor
+def inject_navid():
+    return dict(navid=moduleid)
+    
+navbar.add(moduleid, moduleid.title(), '/%s/' % moduleid)

@@ -1233,6 +1233,9 @@
                     case "y":
                         doClick(buttons.redo);
                         break;
+                case "m":// [2012-10-28 13:38] by weet
+                  $('#wmd-preview').toggle();
+                  break;
                     case "z":
                         if (key.shiftKey) {
                             doClick(buttons.redo);

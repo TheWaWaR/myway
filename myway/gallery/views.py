@@ -2,10 +2,11 @@
 #coding=utf-8
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from myway.utils import db
+from myway.utils import db, navbar
 from myway.gallery.models import Image
 
-galleryview = Blueprint('gallery', __name__, url_prefix='/gallery')
+moduleid = 'gallery'
+galleryview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 
 
 @galleryview.route('/')
@@ -60,4 +61,9 @@ def delete(id):
     return redirect('/gallery/')
 
 
-
+    
+@galleryview.context_processor
+def inject_navid():
+    return dict(navid=moduleid)
+    
+navbar.add(moduleid, moduleid.title(), '/%s/' % moduleid)

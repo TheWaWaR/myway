@@ -27,15 +27,12 @@
     <!-- 1. Header -->
     <div class="wrapper">
       <header id="header">
-        <h2><span>M-x </span> WEET</h2>
+        <h2><span>M-x </span> <a href="/blog/">WEET</a></h2>
         {% block nav %}
           <ul>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href="/gallery/">Gallery</a></li>
-            <li><a href="/chat/">Chat</a></li>
-            <li><span>Project</span></li>
-            <li><a href="/mldonkey/">Mldonkey</a></li>
-            <li><a href="/vps/">VPS</a></li>
+            {% for nav in g.navbar %}
+              {{ nav.render(navid) }}
+            {% endfor %}
           </ul>
         {% endblock nav %}
       </header>
@@ -43,6 +40,11 @@
 
     <!-- 2. Main -->
     <div id="box-inside-white">
+      {% block flash %}
+        {% from "macros/common.html" import render_flash %}
+        {{ render_flash() }}
+      {% endblock flash %}
+      
       <div class="wrapper">
 	<div class="row">
           {% block main %}

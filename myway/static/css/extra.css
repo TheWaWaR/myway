@@ -1,6 +1,21 @@
 
 /* =Flash messages */
 .flash {
+    float: none;
+    width: 540px;
+    margin: 0 auto;
+    border: 1px solid #DDD;
+    border-radius: 8px;
+    background: #FAFADF;
+}
+
+.flash ul{
+    margin: 0;
+    padding: 8px 40px;
+}
+
+.flash ul li {
+    
 }
 
 .flash .error{
@@ -56,14 +71,16 @@
 }
 
 
+
 /* =Article */
 .article {
     position: relative;
+    margin-bottom: 50px;
     color: #111;
 }
 
 .article .content{
-    width: 90%;
+    width: 99%;
     margin: 0 auto;
 }
 
@@ -72,6 +89,20 @@
     border-bottom: 2px #E5E5E5 dotted;
     margin-bottom: 22px;
 }
+
+.article .title a {
+    text-decoration: none;
+}
+
+.article .meta {
+    margin-top: -20px;
+}
+
+.article .meta span {
+    color: #AAA;
+    padding: 0 4px;
+}
+
 
 /* =Markdown pagedown */
 #wmd-button-bar  {

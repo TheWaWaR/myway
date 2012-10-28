@@ -42,10 +42,6 @@
 
 {% block main %}
   <div class="quarter">
-    <div class="">
-      {% from "macros/gallery.html" import render_flash %}
-      {{ render_flash() }}
-    </div>
 
     <div class="search">
       <form method="GET" id="" action="/gallery/">
@@ -58,16 +54,19 @@
       </form>
     </div>
 
+    {% if not current_user.is_anonymous() %}
     <div class="sidebar-menu">
       <ul class="list-toc">
         <li><a href="/gallery/">Gallery</a></li>
         <li><a href="/gallery/upload">Upload</a></li>
       </ul>
     </div>
+    {% endif %}
 
     {% if images %}
     <div class="">
       <ul class="list-toc">
+        <li><span>Recent upload</span></li>
         {% for img in images %}
         <li>
           <div class="row-menu">

@@ -4,12 +4,20 @@
 
   
 {% block main %}
-  <div class="fivesixth centered article" >
+<div class="row">
+  <div class="fourfifth centered" >
     <div class="article">
       <div class="title">
-        <h1>{{ article.title }}</h1>        
+        <h1>{{ article.title }}</h1>
+        <div class="meta push-right">
+          <span>{{ article.created_at.strftime('%Y-%m-%d %H:%M')}}</span>
+          {% if not current_user.is_anonymous() %}
+          <a href="{{ url_for('blog.edit', id=article.id) }}">Edit</a>
+          {% endif %}
+        </div>
       </div>
       <div class="content">{{ article.content | safe }}</div>
     </div>
   </div>
+</div>
 {% endblock %}

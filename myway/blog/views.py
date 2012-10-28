@@ -1,18 +1,24 @@
 #!/usr/bin/env python
 #coding=utf-8
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from myway.utils import db
+from flask import Blueprint, render_template, redirect, url_for
+from myway.utils import db, navbar
+from myway.common.login import current_user
 
-from .models import Article, Category
+from .models import Article
 from .forms import ArticleForm
 
-blogview = Blueprint('blog', __name__, url_prefix='/blog')
+moduleid = 'blog'
+blogview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 
 @blogview.route('/')
 def index():
     LIMIT = 5
-    articles = Article.query.order_by(Article.created_at.desc())\
+    query = Article.query
+    if current_user.is_anonymous():
+        query = query.filter(db.and_(Article.status==3,
+                                     Article.visibility < 3))
+    articles = query.order_by(Article.created_at.desc())\
                             .offset(0).limit(LIMIT).all()
     return render_template('blog/index.html', articles=articles)
 
@@ -49,3 +55,10 @@ def edit(id):
     form.process(obj=article)
     return render_template('blog/new-edit.html', form=form,
                            action=url_for('blog.edit', id=id), title=u'Edit Article')
+
+
+@blogview.context_processor
+def inject_navid():
+    return dict(navid=moduleid)
+    
+navbar.add(moduleid, moduleid.title(), '/%s/' % moduleid)

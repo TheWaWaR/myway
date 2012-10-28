@@ -15,6 +15,7 @@ class Article(db.Model):
     title       = db.Column(db.String(200))
     status      = db.Column(db.Integer) # 1. Draft, 2. Pending Review, 3. Published, 4. Deleted,
     visibility  = db.Column(db.Integer) # 1. Public, 2. Password protected, 3. Private
+    password    = db.Column(db.String(200))
     content     = db.Column(db.Text)
     created_at  = db.Column(db.DateTime, default=datetime.now)
     updated_at  = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

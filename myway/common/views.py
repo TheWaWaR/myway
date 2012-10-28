@@ -7,34 +7,37 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from myway.utils import db
 from myway.blog.models import Article
 from .models import User
+from .forms import LoginForm
+from .login import login_user, logout_user
 
-commonview = Blueprint('common', __name__)
+moduleid = 'common'
+commonview = Blueprint(moduleid, __name__)
 
 
 @commonview.route('/')
 def layout():
     return render_template('layout.html')
 
-@commonview.route('/test-md')
-def save_md():
-    import re
-    from flask import current_app
-    md_dir = os.path.join(current_app.root_path, 'static/markdown')
-    md_files = os.listdir(md_dir)
-    meta_patt = '^- +(\w+) *: *(.+)$'
-    for file_name in md_files:
-        f =  open(os.path.join(md_dir, file_name), 'r')
-        article = Article()
+@commonview.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(next=request.args.get('next', ''))
+    if form.is_submitted and form.validate_on_submit():
+        login = form.login.data
+        password = form.password.data
+        next = form.next.data
+        user, authenticated =  User.authenticate(login, password)
+        if user and authenticated:
+            login_user(user, remember=True)
+            flash('Log in successed!', 'success')
+            if next:
+                return redirect(next)
+            return redirect('/blog/')
+        flash('Username or password is wrong!', 'error')
+    return render_template('common/login.html', form=form)
 
-        content = ''
-        recording = True
-        for line in f.readlines():
-            if line.startswith('---'):
-                recording = False
-            elif recording:
-                name, value = re.search(meta_patt, line)
-                setattr(article, name, value)
-            else:
-                content += line
-                
-    return 'OK'
+    
+@commonview.route('/logout')
+def logout():
+    logout_user()
+    flash('Log out successed!', 'success')
+    return redirect('/login')

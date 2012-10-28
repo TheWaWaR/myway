@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}Log in{% endblock title %}
+
+{% block main %}
+<div class="row">
+  <div class="half centered">
+    <form method="POST" id="" class="forms columnar" action="/login">
+      {% from "macros/form.html" import render_field %}
+      {{ form.hidden_tag() }}
+      <fieldset>
+        <legend>Log in</legend>
+        <ul>
+          {{ render_field(form.login) }}
+          {{ render_field(form.password) }}
+          <li>
+            <label></label>
+            <input type="submit" class="btn" value="Login" />
+          </li>
+
+        </ul>
+      </fieldset>
+    </form>
+  </div>
+</div>
+{% endblock main %}

@@ -3,30 +3,44 @@
 {% block title %}Blog Home{% endblock %}
 
 {% block sidebar %}
-  {% if articles %}
-  <div class="recent-articles">
-    <ul class="list-toc">
-      {% for article in articles %}
-      <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
-  <div class="sidebar-menu">
-    <ul class="list-toc">
-      <li><a href="/blog/">Home</a></li>
-      <li><a href="/blog/new">New</a></li>
-    </ul>
-  </div>
-{% endblock %}
-  
-{% block content %}
-  <div class="" >
+<div class="recent-articles">
+  <ul class="list-toc">
+    <li><span>Recent post</span></li>
     {% for article in articles %}
-    <div class="article">
-      <h1 class="title">{{ article.title }}</h1>
+    <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% if not current_user.is_anonymous() %}
+<div class="sidebar-menu">
+  <ul class="list-toc">
+    <li><a href="/blog/">Home</a></li>
+    <li><a href="/blog/new">New</a></li>
+  </ul>
+</div>
+{% endif %}
+{% endblock sidebar %}
+
+{% block content %}
+<div class="" >
+  {% for article in articles %}
+  <div class="article">
+    <div class="title">
+      <a href="{{ url_for('blog.single', id=article.id) }}">
+        <h2>{{ article.title }}</h2>
+      </a>
+      <div class="meta push-right">
+        <span>{{ article.created_at.strftime('%Y-%m-%d %H:%M')}}</span>
+        {% if not current_user.is_anonymous() %}
+        <a href="{{ url_for('blog.edit', id=article.id) }}">Edit</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="content">
       {{ article.content | safe }}
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
+</div>
 {% endblock %}

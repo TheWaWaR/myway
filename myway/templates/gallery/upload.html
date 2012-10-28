@@ -2,21 +2,6 @@
 
 {% block title %}Upload Image{% endblock %}
 
-{% block nav_sub %}
-<ul>
-  <li><a href="/gallery/">List</a></li>
-  <li><a href="/gallery/upload">Upload</a></li>
-</ul>
-{% endblock %}
-
-
-{% block sidebar %}
-  {% from "macros/gallery.html" import render_flash %}
-<div class="">
-  {{ render_flash() }}
-</div>
-{% endblock %}
-
 {% block content %}
   <div class="">
     <form method="POST" action="/gallery/upload" enctype=multipart/form-data class="forms columnar">
@@ -29,6 +14,7 @@
           {{ render_field(form.tag) }}
           {{ render_field(form.title, style="height:80px;width:360px;") }}
           <li>
+            <label></label>
             <input type="submit" class="btn" value="Upload" />
           </li>
         </ul>
