@@ -191,7 +191,7 @@ body.kubepage #header h2 {
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
 
     body.kubepage #header h2 {
-	background: url(/static/images/kube/ico_kube2x.png) no-repeat;
+	background: url(/static/images/kube/emacs.png) no-repeat;
 	background-size: auto 30px;	
     }
 
@@ -431,7 +431,7 @@ body.kubepage #header h2 {
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
 
     body.kubepage .box-inner #ico-kube span {
-	background: url(/static/images/kube/ico_kube2x.png) no-repeat;
+	background: url(/static/images/kube/emacs.png) no-repeat;
 	background-size: auto 30px;	
     }
 
