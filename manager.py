@@ -2,19 +2,25 @@
 #coding=utf-8
 
 import sys
-from myway import create_app
+from myway import app
 
-def create_all():
+def create_db():
     from myway.utils import db
     db.create_all()
     print 'DB created!'
 
+def rebuild_db():
+    from myway.utils import db
+    db.drop_all()
+    db.create_all()
+    print 'DB Rebuilt!'
+    
 func = {}
-func['create_all'] = create_all
+func['create_db'] = create_db
+func['rebuild_db'] = rebuild_db
 
-app = create_app('settings.py')
 if __name__ == '__main__':
-    print globals()
+    # print globals()
     if len(sys.argv) > 1:
         name = sys.argv[1]
         args = sys.argv[2:]

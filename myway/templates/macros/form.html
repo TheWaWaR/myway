@@ -17,7 +17,7 @@
   {% if is_100 %}</section>{% endif %}
   
   {{ field(class=class, **kwargs) }}
-  <span class="error">{{ error|e }}</span>
+  {% if error %} <span class="error">{{ error|e }}</span>{% endif %}
   {% if is_100 %}</fieldset>{% endif %}
   
 </li>

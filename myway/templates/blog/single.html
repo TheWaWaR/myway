@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+  
+{% block main %}
+  <div class="fivesixth centered article" >
+    <div class="article">
+      <div class="title">
+        <h1>{{ article.title }}</h1>        
+      </div>
+      <div class="content">{{ article.content | safe }}</div>
+    </div>
+  </div>
+{% endblock %}
