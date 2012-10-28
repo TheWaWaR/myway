@@ -17,7 +17,7 @@
     $(document).ready(function(){
         $('.list-toc li .btn-delete').each(function(index){
             var target = $(this).attr('rel');
-            var title = $('.list-toc li>a:eq(' + index + ')').text().trim();
+            var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
             $(this).click(function(){
                 $dialog = $('#delete-dialog-modal');
                 $dialog.find('.btn').attr('href', target);
@@ -28,7 +28,7 @@
 
         $('.list-toc li .btn-edit').each(function(index){
             var target = $(this).attr('rel');
-            var title = $('.list-toc li>a:eq(' + index + ')').text().trim();
+            var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
             $(this).click(function(){
                 $dialog = $('#edit-dialog-modal');
                 $dialog.find('form').attr('action', target);
@@ -64,7 +64,7 @@
     {% endif %}
 
     {% if images %}
-    <div class="">
+    <div id="gallery-mgr">
       <ul class="list-toc">
         <li><span>Recent upload</span></li>
         {% for img in images %}
