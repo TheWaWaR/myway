@@ -29,4 +29,4 @@ if __name__ == '__main__':
         args = sys.argv[2:]
         apply(func[name], args)
     
-    run_simple('0.0.0.0', 2012, application, use_reloader=True, use_debugger=True)
+    run_simple('0.0.0.0', 2012, application, use_reloader=True, use_debugger=False)

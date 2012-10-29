@@ -74,9 +74,14 @@
 
 /* =Article */
 .article {
-    position: relative;
-    margin-bottom: 50px;
-    color: #111;
+	position: relative;
+	color: #111;
+	padding: 30px 20px;
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.3) 0 2px 4px;
+	background-color: #FDFDDA;
+    	color: #111;
 }
 
 .article .content{
@@ -88,6 +93,12 @@
     text-align: center;
     border-bottom: 2px #E5E5E5 dotted;
     margin-bottom: 22px;
+}
+.article .title h1 {
+	margin-bottom: 20px;
+}
+.article .title h2 {
+	margin-bottom: 20px;
 }
 
 .article .title a {
@@ -181,9 +192,10 @@
     height:320px;
     width: 97%;
     resize: vertical;
-    padding: 10px;
+    padding: 12px;
     font-size: 14px;
-    line-height: 1.2em;
+    line-height: 1.6em;
+    background-color: #FDFDDA;
 }
 
 #wmd-preview {

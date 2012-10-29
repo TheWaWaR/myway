@@ -1,5 +1,6 @@
 /* =Font
    -----------------------------------------------------------------------------*/
+/*
 @font-face {font-family: 'PT Sans'; 
 	    src: url('/css/fonts/pts55f_w.eot'); 
 	    src: local('PT Sans'), url('/css/fonts/PTS55F_W.woff') format('woff'),url('/css/fonts/PTS55F_W.ttf') format('truetype'), url('/css/fonts/PTS55F_W.svg#PTSans-Regular') format('svg');}
@@ -20,14 +21,16 @@
 	    font-weight: bold; 
 	    src: url('/css/fonts/pts76f_w.eot'); 
 	    src: local('PT Sans Bold Italic'), url('/css/fonts/PTS76F_W.woff') format('woff'),url('/css/fonts/PTS76F_W.ttf') format('truetype'), url('/css/fonts/PTS76F_W.svg#PTSans-BoldItalic') format('svg');}
+*/
 
 /* =Typography
    -----------------------------------------------------------------------------*/
 body {
-    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 15px;
     min-width: 960px;
-    background-color: #FAFAD8;
+    /*background-color: #FAFAD8;*/
+    background-color: #fff;
 }
 
 ::selection {
@@ -392,7 +395,7 @@ body.kubepage #header h2 {
 #box-inside-white {
     padding: 3em 0;
     margin-bottom: 3em;
-    background: url(/static/images/kube/separator-2.png) no-repeat center top;
+    background: url(/static/images/kube/separator.png) no-repeat center top;
 }
 
 
