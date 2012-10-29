@@ -26,7 +26,7 @@ class Image(db.Model):
     thumb = db.relation('Thumb')
 
     @property
-    def save_name(self):
+    def path(self):
         upload_folder = current_app.config['UPLOADED_IMAGES_DEST']
         return os.path.join(upload_folder, self.filename)
 
@@ -36,15 +36,13 @@ class Image(db.Model):
         filename = '.'.join([md5(source_name).hexdigest() + str(rand.randint(0, 1000)),
                              source_name.split('.')[-1]])
         self.filename = filename
+        file_data.save(self.path)
         
         thumb = Thumb()
         thumb.filename = filename
-        
-        file_data.save(self.save_name)
-        from shutil import copyfile
-        copyfile(self.save_name, thumb.save_name)
-        
+        thumb.save(self.path)
         db.session.add(thumb)
+        
         self.source_name = source_name
         self.tag = tag
         self.title = title
@@ -53,8 +51,8 @@ class Image(db.Model):
 
 
     def delete(self):
-        os.remove(self.thumb.save_name)
-        os.remove(self.save_name)
+        os.remove(self.thumb.path)
+        os.remove(self.path)
         db.session.delete(self)
         
     @property
@@ -70,10 +68,21 @@ class Thumb(db.Model):
     create_at = db.Column(db.DateTime, default=datetime.now)
     
     @property
-    def save_name(self):
-        import os
+    def path(self):
         upload_folder = current_app.config['UPLOADED_THUMBS_DEST']
         return os.path.join(upload_folder, self.filename)
+
+    def save(self, img_path):
+        from PIL import Image as PILImage
+        im = PILImage.open(img_path)
+        iwidth, iheight = im.size
+        max_width = current_app.config['THUMBS_MAX_WIDTH']
+        if iwidth > max_width:
+            iheight = iheight/(float(iwidth)/max_width)
+            iwidth = max_width
+        im.thumbnail((iwidth, iheight), PILImage.ANTIALIAS)
+        im.save(self.path)
+        
         
     @property
     def link(self):
