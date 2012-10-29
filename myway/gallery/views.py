@@ -15,8 +15,9 @@ def index():
     key = request.args.get('key', '')
     query = Image.query
     if key:
-        query = query.filter(db.or_(Image.source_name.ilike('%%%s%%' % key),
-                                Image.title.ilike('%%%s%%' % key)))
+        ikey = '%' + key + '%'
+        query = query.filter(db.or_(Image.source_name.ilike(ikey),
+                                    Image.title.ilike(ikey)))
     images = query.order_by(Image.id.desc()).offset(0).limit(LIMIT).all()
     return render_template('gallery/index.html', key=key, images=images)
 

@@ -394,7 +394,7 @@ body.kubepage #header h2 {
 }
 #box-inside-white {
     padding: 3em 0;
-    margin-bottom: 3em;
+    margin-bottom: 20px;
     background: url(/static/images/kube/separator.png) no-repeat center top;
 }
 

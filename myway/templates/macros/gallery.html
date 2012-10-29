@@ -2,11 +2,9 @@
 
 {% macro render_image(img, group_tag='', class='') %}
 <a href="{{ img.link }}" id="image_{{ img.id }}"
-   rel="lightbox{{ group_tag }}"  title="{{ img.title }}">
+   rel="lightbox{{ group_tag }}" class="{{ class }}" title="{{ img.title }}">
   {% if img.thumb %}
-  <div class="{{ class }}">
-    <img align="middle" src="{{ img.thumb.link }}">
-  </div>
+    <img align="middle" class="bordered-img" src="{{ img.thumb.link }}">
   {% else %}
   {{ img.title }}
   {% endif %}
@@ -17,7 +15,7 @@
 {% macro render_images(imgs, group_tag='[myimages]')%}
 {% for img in imgs %}
 <li>
-  {{ render_image(img, group_tag=group_tag, class="gallery-item") }}
+  {{ render_image(img, group_tag=group_tag,) }}
 </li>
 {% endfor %}
 {% endmacro %}

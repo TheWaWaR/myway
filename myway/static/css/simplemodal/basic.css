@@ -17,8 +17,35 @@
 #simplemodal-overlay {background-color:#000; cursor:wait;}
 
 /* Container */
-#simplemodal-container {height:120px; width:400px; color:#bbb; background-color:#333; border:4px solid #444; padding:12px;}
-#simplemodal-container .simplemodal-data {padding:8px;}
+#simplemodal-container {
+    height: 160px;
+    width:400px;
+    background: url(/static/images/kube/bg-gray-noise.jpg) #EEE;
+    /* color:#bbb; */
+    /* background-color:#333; */
+    /* border:2px solid #DDD; */
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 4px;
+    padding:0;
+}
+
+#simplemodal-container .simplemodal-data {
+    display: block;
+    padding: 25px 20px;
+}
+
 #simplemodal-container code {background:#141414; border-left:3px solid #65B43D; color:#bbb; display:block; font-size:12px; margin-bottom:12px; padding:4px 6px 6px;}
 #simplemodal-container a.modalCloseImg {background:url(/static/images/simplemodal-x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
-#simplemodal-container h3 {color:#84b8d9;}
+#simplemodal-footer {
+    padding: 14px 15px 15px;
+    border-top: 1px solid #EEE;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: inset 0 1px 0 white;
+    -moz-box-shadow: inset 0 1px 0 #FFF;
+    box-shadow: inset 0 1px 0 white;
+    margin-bottom: 0;
+    text-align: center;
+}
+/* #simplemodal-container h3 {color:#84b8d9;} */

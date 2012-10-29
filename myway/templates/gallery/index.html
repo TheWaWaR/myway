@@ -14,30 +14,33 @@
   <script type="text/javascript" src="/static/js/simplemodal/jquery.simplemodal.js"></script>
   <script type="text/javascript" src="/static/js/simplemodal/basic.js"></script>
   <script type="text/javascript">
-    $(document).ready(function(){
-        $('.list-toc li .btn-delete').each(function(index){
-            var target = $(this).attr('rel');
-            var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
-            $(this).click(function(){
-                $dialog = $('#delete-dialog-modal');
-                $dialog.find('.btn').attr('href', target);
-                $dialog.find('.title').text(title);
-                $dialog.modal();
-            });
-        });
 
-        $('.list-toc li .btn-edit').each(function(index){
-            var target = $(this).attr('rel');
-            var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
-            $(this).click(function(){
-                $dialog = $('#edit-dialog-modal');
-                $dialog.find('form').attr('action', target);
-                $dialog.find(':input[name="title"]').val(title);
-                $dialog.modal();
-            });
-        });
+  $(function(){
+    $('.list-toc li .btn-delete').each(function(index){
+      var target = $(this).attr('href');
+      var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
+      $(this).click(function(){
+        $dialog = $('#delete-dialog-modal');
+        $dialog.find('.btn').attr('href', target);
+        $dialog.find('.title').text(title);
+        $dialog.modal();
+        return false;
+      });
     });
-</script>
+  
+    $('.list-toc li .btn-edit').each(function(index){
+      var target = $(this).attr('href');
+      var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
+      $(this).click(function(){
+        $dialog = $('#edit-dialog-modal');
+        $dialog.find('form').attr('action', target);
+        $dialog.find(':input[name="title"]').val(title);
+        $dialog.modal();
+        return false;
+      });
+    });
+  });
+  </script>
 {% endblock %}
 
 {% block main %}
@@ -48,7 +51,7 @@
         <ul class="list-toc">
           <li>
             <input type="text" name="key" class="input-search"
-                   placeholder="Search Gallery" value="{{ key }}">
+                   placeholder="Source name or Title" value="{{ key }}">
           </li>
         </ul>
       </form>
@@ -66,13 +69,13 @@
     {% if images %}
     <div id="gallery-mgr">
       <ul class="list-toc">
-        <li><span>Recent upload</span></li>
+        <li><span>{% if key %}Search Results{% else %}Recent Uploads{% endif %}</span></li>
         {% for img in images %}
         <li>
           <div class="row-menu">
             <div class="btn-group" >
-              <a rel="{{ url_for('gallery.delete', id=img.id) }}" class="btn btn-delete">Delete</a>
-              <a rel="{{ url_for('gallery.edit', id=img.id) }}" class="btn btn-edit">Edit</a>
+              <a href="{{ url_for('gallery.delete', id=img.id) }}" class="btn btn-delete">Delete</a>
+              <a href="{{ url_for('gallery.edit', id=img.id) }}" class="btn btn-edit">Edit</a>
             </div>
           </div>
           <a href="{{ url_for('gallery.view', id=img.id) }}">{{ img.title }}</a>
@@ -84,7 +87,7 @@
   </div>
 
   <div class="threequarter">
-    <div class="" >
+    <div id="gallery" >
       <ul class="list-toc">
         {% from "macros/gallery.html" import render_images %}
         {{ render_images(images) }}
@@ -92,20 +95,24 @@
     </div>
   </div>
 {% endblock main %}
+
+
   
 {% block hidden_html %}
   <div id="delete-dialog-modal" style="display:none;">
     <p><span class="opt">Delete<span> (<span class="title"></span>) ?</p>
-    <div class="">
-      <a class="btn bold red" href="#">Delete</a>
+    <div id="simplemodal-footer">
+      <a class="btn bold" href="#">Delete</a>
     </div>
   </div>
   <div id="edit-dialog-modal" style="display:none;">
-    <form method="GET" action="#" class="forms columnar">
-      <ul>
-        <li><input type="text" name="title" value="" class="width-100" /></li>
-        <li><input type="submit" value="Change" class="btn bold" /> </li>
-      </ul>
+    <form method="GET" action="#" class="forms ">
+      <div class="modal-body">
+        <ul>
+          <li><input type="text" name="title" value="" class="width-100" /></li>
+        </ul>
+      </div>
+      <div id="simplemodal-footer"><input type="submit" value="Change" class="btn bold " /> </div>
     </form>
   </div>
 {% endblock hidden_html %}
