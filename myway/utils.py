@@ -83,7 +83,8 @@ class BleepRenderer(HtmlRenderer, SmartyPants):
         lexer = get_lexer_by_name(lang, stripall=True)
         formatter = HtmlFormatter()
         return highlight(text, lexer, formatter)
-
+        
+        
 # And use the renderer
 renderer = BleepRenderer()
 md = misaka.Markdown(renderer,

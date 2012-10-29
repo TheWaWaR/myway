@@ -62,7 +62,9 @@ def edit(id):
         return redirect(url_for('blog.edit', id=article.id))
     form.process(obj=article)
     return render_template('blog/new-edit.html', form=form,
-                           action=url_for('blog.edit', id=id), title=u'Edit Article')
+                           action=url_for('blog.edit', id=id),
+                           view_link=url_for('blog.single', id=id),
+                           title=u'Edit Article')
 
 
 @blogview.route('/delete/<int:id>', methods=['GET', 'POST'])

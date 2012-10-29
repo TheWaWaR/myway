@@ -16,6 +16,8 @@ class Article(db.Model):
     status      = db.Column(db.Integer) # 1. Draft, 2. Pending Review, 3. Published, 4. Deleted,
     visibility  = db.Column(db.Integer) # 1. Public, 2. Password protected, 3. Private
     password    = db.Column(db.String(200))
+    summary     = db.Column(db.Text)
+    has_more    = db.Column(db.Boolean)
     content     = db.Column(db.Text)
     created_at  = db.Column(db.DateTime, default=datetime.now)
     updated_at  = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -30,7 +32,11 @@ class Article(db.Model):
     def refresh(self):
         self.content = md.render(self.md_content)
         
+        paragraphs = self.content.split('</p>')
+        self.has_more = True if len(paragraphs) > 2 else False
+        self.summary = '</p>'.join(paragraphs[:2]) + '</p>'
 
+        
 class Category(db.Model):
     """ 文章分类 """
     __tablename__ = 'categories'

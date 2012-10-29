@@ -77,7 +77,10 @@
       {% if current_user.is_anonymous() and article.visibility == 2 %}
         <h4>(Password required)</h4>
       {% else %}
-        {{ article.content | safe }}
+        {{ article.summary | safe }}
+        {% if article.has_more %}
+        <p><a href="{{ url_for('blog.single', id=article.id) }}">Read More ...</a></p>
+        {% endif %}
       {% endif %}
     </div>
   </div>

@@ -42,7 +42,10 @@
           {{ render_field(form.visibility) }}
           <hr />
           <li>
-            <input type="submit" class="btn push-right" value="Submit" />
+            {% if view_link %}
+            <a class="btn" href="{{ view_link }}">View</a>
+            {% endif %}
+            <input type="submit" class="btn" value="Submit" />
           </li>
         </ul>
       </fieldset>

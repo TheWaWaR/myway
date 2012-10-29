@@ -4,6 +4,7 @@
 
 {% block css_extra %}
   <link type="text/css" href="/static/css/simplemodal/basic.css" rel="stylesheet" media="screen">
+  <link type="text/css" href="/static/css/pygments_monokai.css" rel="stylesheet" media="screen">
 {% endblock css_extra %}
 
 {% block js_extra %}
@@ -29,7 +30,7 @@
 {% block main %}
 <div class="row">
   <div class="fourfifth centered" >
-    <div class="article">
+    <div id="single" class="article">
       <div class="title">
         <h1>{{ article.title }}</h1>
         <div class="meta push-right">

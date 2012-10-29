@@ -20,7 +20,8 @@
 #simplemodal-container {
     height: 160px;
     width:400px;
-    background: url(/static/images/kube/bg-gray-noise.jpg) #EEE;
+    /* background: url(/static/images/kube/bg-gray-noise.jpg) #EEE; */
+    background-color: #eee;
     /* color:#bbb; */
     /* background-color:#333; */
     /* border:2px solid #DDD; */
