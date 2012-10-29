@@ -5,6 +5,8 @@ import sys
 from werkzeug.wsgi import DispatcherMiddleware
 from werkzeug.serving import run_simple
 from myway import app
+from myway.common.models import User
+from myway.blog.models import Category
 
 def create_db():
     from myway.utils import db
@@ -15,6 +17,15 @@ def rebuild_db():
     from myway.utils import db
     db.drop_all()
     db.create_all()
+
+    user = User()
+    user.login = 'weet'
+    user.password = 'hello123'
+    db.session.add(user)
+    category = Category()
+    category.name = 'None'
+    db.session.add(category)
+    db.session.commit()
     print 'DB Rebuilt!'
     
 func = {}
