@@ -4,6 +4,7 @@
 import sys
 from werkzeug.wsgi import DispatcherMiddleware
 from werkzeug.serving import run_simple
+import tornado.options
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
@@ -43,7 +44,9 @@ if __name__ == '__main__':
         if name in func.keys():
             args = sys.argv[2:]
             apply(func[name], args)
-            
+
+    tornado.options.options['log_file_prefix'].set('/root/projects/myway/log/tornado.log')            
+    tornado.options.parse_command_line()
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(2012)
     IOLoop.instance().start()

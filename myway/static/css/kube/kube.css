@@ -206,11 +206,11 @@ hr {
 /* =Typography
 -----------------------------------------------------------------------------*/
 body {
-  background: #ffffff;
+  background: #F8F4E7;
   color: #000000;
   font-size: 0.875em;
   line-height: 1.5em;
-  font-family: Helvetica, Arial, Tahoma, sans-serif;
+  font-family: Tahoma, sans-serif;/* Helvetica, Arial, */
 }
 a {
   color: #336699;
