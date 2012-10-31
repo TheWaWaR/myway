@@ -3,18 +3,18 @@
 
 import os
 import sys
-from werkzeug.wsgi import DispatcherMiddleware
-from werkzeug.serving import run_simple
 import tornado.options
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
-from myway import app
 from myway.common.models import User
 from myway.blog.models import Category
 from myway.local_settings import LOG_PATH
 
+# ==============================================================================
+#  Database
+# ==============================================================================
 def create_db():
     from myway.utils import db
     db.create_all()
@@ -34,23 +34,38 @@ def rebuild_db():
     db.session.add(category)
     db.session.commit()
     print 'DB Rebuilt!'
-    
-func = {}
-func['create_db'] = create_db
-func['rebuild_db'] = rebuild_db
 
-
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        name = sys.argv[1]
-        if name in func.keys():
-            args = sys.argv[2:]
-            apply(func[name], args)
-
+# ==============================================================================
+#  Application
+# ==============================================================================    
+from myway import app
+def run_product(app=app):
     tornado.options.options['log_file_prefix'].set(os.path.join(LOG_PATH, 'tornado.log'))
     tornado.options.parse_command_line()
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(2012)
     IOLoop.instance().start()
-    # application = DispatcherMiddleware(app)
-    # run_simple('0.0.0.0', 2012, application, use_reloader=True, use_debugger=False)
+
+def run_debug(app=app):
+    app.run(host='0.0.0.0', port=2012, debug=True)
+
+# ==============================================================================
+#  Function dict
+# ==============================================================================    
+FUNCS = {
+    'create_db'  : create_db,
+    'rebuild_db' : rebuild_db, 
+    'product'    : run_product,
+    'debug'      : run_debug
+}    
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        name = sys.argv[1]
+        if name in FUNCS.keys():
+            args = sys.argv[2:]
+            print 'Argument is correct!: ' + name
+            apply(FUNCS[name], args)
+        print '> Missing!: ' + name
+    print 'Run under DEBUG'
+    run_debug()
