@@ -4,6 +4,11 @@
 import sys
 from werkzeug.wsgi import DispatcherMiddleware
 from werkzeug.serving import run_simple
+import tornado.options
+from tornado.wsgi import WSGIContainer
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+
 from myway import app
 from myway.common.models import User
 from myway.blog.models import Category
@@ -32,12 +37,18 @@ func = {}
 func['create_db'] = create_db
 func['rebuild_db'] = rebuild_db
 
-application = DispatcherMiddleware(app)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         name = sys.argv[1]
-        args = sys.argv[2:]
-        apply(func[name], args)
-    
-    run_simple('0.0.0.0', 2012, application, use_reloader=True, use_debugger=False)
+        if name in func.keys():
+            args = sys.argv[2:]
+            apply(func[name], args)
+
+    tornado.options.options['log_file_prefix'].set('/root/projects/myway/log/tornado.log')            
+    tornado.options.parse_command_line()
+    http_server = HTTPServer(WSGIContainer(app))
+    http_server.listen(2012)
+    IOLoop.instance().start()
+    # application = DispatcherMiddleware(app)
+    # run_simple('0.0.0.0', 2012, application, use_reloader=True, use_debugger=False)

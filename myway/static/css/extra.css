@@ -83,11 +83,10 @@
 	color: #111;
 	padding: 30px 40px ;
         margin-bottom: 30px;
-	border: 1px solid #DDD;
-	border-radius: 6px;
-	box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px;
-	background-color: #FEFEE3; /* #FDFDDA; */
-    	color: #111;
+	/* border: 1px solid #DDD; */
+	/* border-radius: 6px; */
+	/* box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px; */
+	/* background-color: #F8F4E7;/\*#FEFEE3; #FDFDDA; *\/ */
 }
 
 .article p{
@@ -209,7 +208,7 @@
     padding: 12px;
     font-size: 14px;
     line-height: 1.6em;
-    background-color: #FDFDDA;
+    background-color: #F8F4E7; /*FDFDDA;*/
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px !important;
 }
 

@@ -1236,6 +1236,12 @@
                 case "m":// [2012-10-28 13:38] by weet
                   $('#wmd-preview').toggle();
                   break;
+		case "p":
+		    $('#article-options').toggle();
+		    $('#article-edit ul li :eq(0)').toggle();
+		    $('#wmd-button-bar').toggle();
+		    $('#article-edit').toggleClass('centered');
+		    break;
                     case "z":
                         if (key.shiftKey) {
                             doClick(buttons.redo);

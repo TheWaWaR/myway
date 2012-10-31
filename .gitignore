@@ -4,6 +4,7 @@
 
 # Custom
 *local_settings.py
+log
 myway/static/uploads
 
 # Packages
