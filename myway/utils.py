@@ -84,7 +84,11 @@ class BleepRenderer(HtmlRenderer, SmartyPants):
         lexer = get_lexer_by_name(lang, stripall=True)
         formatter = HtmlFormatter()
         return highlight(text, lexer, formatter)
-        
+
+    def image(self, link, title, alt):
+        return '''<figure><img src="%(src)s" alt="%(alt)s" title="%(title)s">
+        <figcaption>%(title)s</figcaption> </figure>''' % dict(src=link, title=title, alt=alt)
+
         
 # And use the renderer
 renderer = BleepRenderer()

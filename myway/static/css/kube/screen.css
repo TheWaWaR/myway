@@ -393,7 +393,7 @@ body.kubepage #header h2 {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3) inset;	
 }
 #box-inside-white {
-    padding: 3em 0;
+    padding: 2em 0;
     margin-bottom: 20px;
     background: url(/static/images/kube/separator-3.png) no-repeat center top;
 }

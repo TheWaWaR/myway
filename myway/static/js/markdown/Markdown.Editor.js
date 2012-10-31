@@ -1237,11 +1237,15 @@
                   $('#wmd-preview').toggle();
                   break;
 		case "p":
-		    $('#article-options').toggle();
-		    $('#article-edit ul li :eq(0)').toggle();
-		    $('#wmd-button-bar').toggle();
-		    $('#article-edit').toggleClass('centered');
-		    break;
+                  $('#header').toggle();
+                  $('.wrapper :eq(0)').toggle();
+                  $('.wrapper :eq(2)').toggle();
+		  $('#article-options').toggle();
+		  $('#wmd-button-bar').toggle();
+		  $('#article-edit > h4').toggle();
+		  $('#article-edit').toggleClass('centered');
+		  $('#article-edit ul li :eq(0)').toggle();
+		  break;
                     case "z":
                         if (key.shiftKey) {
                             doClick(buttons.redo);

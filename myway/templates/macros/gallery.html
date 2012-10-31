@@ -1,11 +1,11 @@
 
-{% macro render_image(img, group_tag='', class='') %}
+{% macro render_image(img, group_tag='', class='', type='small') %}
 <a href="{{ img.link }}" id="image_{{ img.id }}"
    rel="lightbox{{ group_tag }}" class="{{ class }}" title="{{ img.title }}">
-  {% if img.thumb %}
+  {% if type=="small" %}
     <img align="middle" class="bordered-img" src="{{ img.thumb.link }}">
   {% else %}
-  {{ img.title }}
+    <img align="middle" class="bordered-img" src="{{ img.link }}">
   {% endif %}
 </a>
 {% endmacro %}
