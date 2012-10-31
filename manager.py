@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding=utf-8
 
+import os
 import sys
 from werkzeug.wsgi import DispatcherMiddleware
 from werkzeug.serving import run_simple
@@ -12,6 +13,7 @@ from tornado.ioloop import IOLoop
 from myway import app
 from myway.common.models import User
 from myway.blog.models import Category
+from myway.local_settings import LOG_PATH
 
 def create_db():
     from myway.utils import db
@@ -45,7 +47,7 @@ if __name__ == '__main__':
             args = sys.argv[2:]
             apply(func[name], args)
 
-    tornado.options.options['log_file_prefix'].set('/root/projects/myway/log/tornado.log')            
+    tornado.options.options['log_file_prefix'].set(os.path.join(LOG_PATH, 'tornado.log'))
     tornado.options.parse_command_line()
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(2012)
