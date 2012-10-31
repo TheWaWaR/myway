@@ -13,8 +13,8 @@
 
 {% macro render_images(imgs, group_tag='[myimages]')%}
 {% for img in imgs %}
-<li>
+{% if loop.index is odd %}<li>{% endif %}
   {{ render_image(img, group_tag=group_tag,) }}
-</li>
+{% if loop.index is even or loop.index == loop.last %}</li>{% endif %}
 {% endfor %}
 {% endmacro %}

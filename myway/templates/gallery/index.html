@@ -71,7 +71,7 @@
       <ul class="list-toc">
         <li><span>{% if key %}Search Results{% else %}Recent Uploads{% endif %}</span></li>
         {% for img in images %}
-        <li>
+	<li>
           {% if not current_user.is_anonymous() %}
           <div class="row-menu">
             <div class="btn-group" >
@@ -81,7 +81,7 @@
           </div>
           {% endif %}
           <a href="{{ url_for('gallery.view', id=img.id) }}">{{ img.title }}</a>
-        </li>
+	</li>
         {% endfor %}
       </ul>
     </div>

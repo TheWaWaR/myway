@@ -36,6 +36,7 @@
 }
 #gallery a {
     display: inline;
+    margin: auto 20px;
 }
 #gallery li{
     padding: 25px 0 15px 0;
@@ -81,7 +82,7 @@
 .article {
 	position: relative;
 	color: #111;
-	padding: 30px 40px ;
+	padding: 10px 40px ;
         margin-bottom: 30px;
 	/* border: 1px solid #DDD; */
 	/* border-radius: 6px; */
@@ -127,7 +128,13 @@
     border-right: 2px dotted #E5E5E5;
 }
 
-
+.article figure{
+	text-align: center;
+}
+.article blockquote, .article figcaption {
+	font-family: "Microsoft Yahei";
+	font-size: 90%;
+}
 /* =Markdown pagedown */
 #wmd-button-bar  {
     width: 100%;
