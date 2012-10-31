@@ -4,8 +4,9 @@
 import os
 from hashlib import md5
 from datetime import datetime
-from werkzeug import secure_filename
+from PIL import Image as PILImage
 
+from werkzeug import secure_filename
 from flask import current_app
 
 from myway.utils import db
@@ -73,7 +74,6 @@ class Thumb(db.Model):
         return os.path.join(upload_folder, self.filename)
 
     def save(self, img_path):
-        from PIL import Image as PILImage
         im = PILImage.open(img_path)
         iwidth, iheight = im.size
         max_width = current_app.config['THUMBS_MAX_WIDTH']

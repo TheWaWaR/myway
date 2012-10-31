@@ -44,7 +44,7 @@ def new():
         article.refresh()
         db.session.add(article)
         db.session.commit()
-        flash('New article added!')
+        flash('New article added!', 'success')
         return redirect(url_for('blog.edit', id=article.id))
     return render_template('blog/new-edit.html', form=form,
                            action=url_for('blog.new'), title=u'New Article')
