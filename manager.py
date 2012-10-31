@@ -70,3 +70,5 @@ if __name__ == '__main__':
     else:
         print 'Run under DEBUG'
         run_debug()
+    print '========================================'
+    print 'DONE!'
