@@ -87,7 +87,7 @@ class BleepRenderer(HtmlRenderer, SmartyPants):
 
     def image(self, link, title, alt):
         return '''<figure><img src="%(src)s" alt="%(alt)s" title="%(title)s">
-        <figcaption>%(title)s</figcaption> </figure>''' % dict(src=link, title=title, alt=alt)
+        <figcaption>%(title)s</figcaption> </figure>''' % dict(src=link, title=alt, alt=alt)
 
         
 # And use the renderer
