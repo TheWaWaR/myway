@@ -43,7 +43,8 @@
             {% if view_link %}
             <a class="btn" target="_blank" href="{{ view_link }}">View</a>
             {% endif %}
-            <input type="submit" class="btn" value="Submit" />
+            <input type="submit" class="btn"
+                   value="{% if request.endpoint == 'blog.new' %}Add{% else %}Update{% endif %}" /> 
           </li>
         </ul>
       </fieldset>
