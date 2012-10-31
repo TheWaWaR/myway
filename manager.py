@@ -67,5 +67,6 @@ if __name__ == '__main__':
             print 'Argument is correct!: ' + name
             apply(FUNCS[name], args)
         print '> Missing!: ' + name
-    print 'Run under DEBUG'
-    run_debug()
+    else:
+        print 'Run under DEBUG'
+        run_debug()
