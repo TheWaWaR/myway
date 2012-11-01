@@ -1198,7 +1198,7 @@
 
                 var keyCode = key.charCode || key.keyCode;
                 var keyCodeStr = String.fromCharCode(keyCode).toLowerCase();
-
+              
                 switch (keyCodeStr) {
                     case "b":
                         doClick(buttons.bold);
@@ -1233,6 +1233,7 @@
                     case "y":
                         doClick(buttons.redo);
                         break;
+                  
                 case "m":// [2012-10-28 13:38] by weet
                   $('#wmd-preview').toggle();
                   break;
@@ -1246,6 +1247,10 @@
 		  $('#article-edit').toggleClass('centered');
 		  $('#article-edit ul li :eq(0)').toggle();
 		  break;
+                case "\r":
+                  $('form').submit();
+                  break;
+                  
                     case "z":
                         if (key.shiftKey) {
                             doClick(buttons.redo);
@@ -2184,7 +2189,7 @@
     commandProto.doHorizontalRule = function (chunk, postProcessing) {
         chunk.startTag = "----------\n";
         chunk.selection = "";
-        chunk.skipLines(2, 1, true);
+        chunk.skipLines(1, 1, true);
     }
 
 
