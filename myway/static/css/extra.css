@@ -36,7 +36,8 @@
 }
 #gallery a {
     display: inline;
-    margin: auto 20px;
+    text-decoration: none;
+    margin: auto 15px;
 }
 #gallery li{
     padding: 25px 0 15px 0;
