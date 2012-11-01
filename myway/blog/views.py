@@ -64,7 +64,7 @@ def edit(id):
     return render_template('blog/new-edit.html', form=form,
                            action=url_for('blog.edit', id=id),
                            view_link=url_for('blog.single', id=id),
-                           title=u'Edit Article')
+                           title=u'Edit: %s' % article.title)
 
 
 @blogview.route('/delete/<int:id>', methods=['GET', 'POST'])
