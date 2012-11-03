@@ -38,6 +38,14 @@
   </form>
 </div>
 
+{% if not current_user.is_anonymous() %}
+<div class="sidebar-menu">
+  <ul class="list-toc">
+    <li><a class="btn btn-round" href="/blog/new">New</a></li>
+  </ul>
+</div>
+{% endif %}
+
 <div class="recent-articles">
   <ul class="list-toc">
     <li><span>{% if key %}Search Results{% else %}Recent Posts{% endif %}</span></li>
@@ -47,13 +55,6 @@
   </ul>
 </div>
 
-{% if not current_user.is_anonymous() %}
-<div class="sidebar-menu">
-  <ul class="list-toc">
-    <li><a href="/blog/new">New</a></li>
-  </ul>
-</div>
-{% endif %}
 {% endblock sidebar %}
 
 {% block content %}
