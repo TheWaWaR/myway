@@ -36,6 +36,7 @@
 }
 #gallery a {
     display: inline;
+    text-decoration: none;
     margin: auto 20px;
 }
 #gallery li{
@@ -209,7 +210,7 @@
 }
 
 #wmd-input{
-    height:430px;
+    height: 330px;
     width: 97%;
     resize: vertical;
     padding: 12px;
