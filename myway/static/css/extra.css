@@ -37,7 +37,10 @@
 #gallery a {
     display: inline;
     text-decoration: none;
-    margin: auto 20px;
+    margin: auto 15px;
+}
+.list-toc a.btn:hover {
+    text-decoration: none;
 }
 #gallery li{
     padding: 25px 0 15px 0;
@@ -89,6 +92,10 @@
 	/* border-radius: 6px; */
 	/* box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px; */
 	/* background-color: #F8F4E7;/\*#FEFEE3; #FDFDDA; *\/ */
+}
+
+.article#single {
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .article p{

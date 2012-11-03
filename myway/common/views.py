@@ -16,7 +16,7 @@ commonview = Blueprint(moduleid, __name__)
 
 @commonview.route('/')
 def layout():
-    return render_template('layout.html')
+    return redirect(url_for('blog.index'))
 
 @commonview.route('/login', methods=['GET', 'POST'])
 def login():
@@ -40,4 +40,4 @@ def login():
 def logout():
     logout_user()
     flash('Log out successed!', 'success')
-    return redirect('/login')
+    return redirect('/blog/')

@@ -60,8 +60,7 @@
     {% if not current_user.is_anonymous() %}
     <div class="sidebar-menu">
       <ul class="list-toc">
-        <li><a href="/gallery/">Gallery</a></li>
-        <li><a href="/gallery/upload">Upload</a></li>
+        <li><a class="btn btn-round"  href="/gallery/upload">Upload</a></li>
       </ul>
     </div>
     {% endif %}
@@ -86,6 +85,7 @@
       </ul>
     </div>
     {% endif %}
+
   </div>
 
   <div class="threequarter">

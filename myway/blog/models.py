@@ -33,8 +33,15 @@ class Article(db.Model):
         self.content = md.render(self.md_content)
         
         paragraphs = self.content.split('</p>')
-        self.has_more = True if len(paragraphs) > 2 else False
-        self.summary = '</p>'.join(paragraphs[:2]) + '</p>'
+        plen = len(paragraphs)
+	idx = length = 0
+	for i in range(plen):
+            length += len(paragraphs[i])
+            if length > 360 or (i < plen-1 and length+len(paragraphs[i+1]) > 480): 
+                idx = i
+                break
+        self.has_more = True if idx < plen-1 else False
+        self.summary = '</p>'.join(paragraphs[:idx+1]) + '</p>'
 
         
 class Category(db.Model):
