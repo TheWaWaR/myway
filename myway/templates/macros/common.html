@@ -1,15 +1,47 @@
+
+<!-- Flash -->
 {% macro render_flash() %}
-{% with messages=get_flashed_messages(with_categories=True) %}
-{% if messages %}
-<div class="">
-  <div class="flash ">
-    <ul>
-      {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-{% endif %}
-{% endwith %}
+  {% with messages=get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div class="">
+        <div class="flash ">
+          <ul>
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+  {% endwith %}
+{% endmacro %}
+
+
+<!-- Pagination -->
+{% macro render_pagination(page_obj, page_url) %}
+  {% if page_obj.pages > 1 %}
+    <style type="text/css" media="screen">
+    </style>
+    <div class="pagination">
+      <ul>
+        {% if page_obj.has_prev %}
+          <li><a href="{{ page_url(page_obj.prev_num) }}">«</a></li>
+        {% endif %}
+        {% for i in page_obj.iter_pages() %}
+            <li>
+              {% if not i %}
+                <span>...</span>
+              {% elif i == page_obj.page %}
+                <span>{{ i }} </span>
+              {% else %}
+                <a href="{{ page_url(i) }}">{{ i }}<a>
+              {% endif %}
+            </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li><a href="{{ page_url(page_obj.next_num) }}">»</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
 {% endmacro %}

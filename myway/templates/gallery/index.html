@@ -18,7 +18,7 @@
   $(function(){
     $('.list-toc li .btn-delete').each(function(index){
       var target = $(this).attr('href');
-      var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
+      var title = $('.gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
       $(this).click(function(){
         $dialog = $('#delete-dialog-modal');
         $dialog.find('.btn').attr('href', target);
@@ -30,7 +30,7 @@
   
     $('.list-toc li .btn-edit').each(function(index){
       var target = $(this).attr('href');
-      var title = $('#gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
+      var title = $('.gallery-mgr .list-toc li>a:eq(' + index + ')').text().trim();
       $(this).click(function(){
         $dialog = $('#edit-dialog-modal');
         $dialog.find('form').attr('action', target);
@@ -57,19 +57,11 @@
       </form>
     </div>
 
-    {% if not current_user.is_anonymous() %}
-    <div class="sidebar-menu">
+    {% if key %}
+    <div class="gallery-mgr">
       <ul class="list-toc">
-        <li><a class="btn btn-round"  href="/gallery/upload">Upload</a></li>
-      </ul>
-    </div>
-    {% endif %}
-
-    {% if images %}
-    <div id="gallery-mgr">
-      <ul class="list-toc">
-        <li><span>{% if key %}Search Results{% else %}Recent Uploads{% endif %}</span></li>
-        {% for img in images %}
+        <li><span>Search Results</span></li>
+        {% for img in page_obj.items %}
 	<li>
           {% if not current_user.is_anonymous() %}
           <div class="row-menu">
@@ -85,16 +77,44 @@
       </ul>
     </div>
     {% endif %}
+    
+    {% if not current_user.is_anonymous() %}
+    <div class="sidebar-menu">
+      <ul class="list-toc">
+        <li><a class="btn btn-round"  href="/gallery/upload">Upload</a></li>
+      </ul>
+    </div>
+    {% endif %}
 
+    <div class="gallery-mgr">
+      <ul class="list-toc">
+        <li><span>Recent Uploads</span></li>
+        {% for img in recents %}
+	<li>
+          {% if not current_user.is_anonymous() %}
+          <div class="row-menu">
+            <div class="btn-group" >
+              <a href="{{ url_for('gallery.delete', id=img.id) }}" class="btn btn-delete">Delete</a>
+              <a href="{{ url_for('gallery.edit', id=img.id) }}" class="btn btn-edit">Edit</a>
+            </div>
+          </div>
+          {% endif %}
+          <a href="{{ url_for('gallery.view', id=img.id) }}">{{ img.title }}</a>
+	</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
   <div class="threequarter">
     <div id="gallery" >
       <ul class="list-toc">
         {% from "macros/gallery.html" import render_images %}
-        {{ render_images(images) }}
+        {{ render_images(page_obj.items) }}
       </ul>
     </div>
+    {% from "macros/common.html" import render_pagination %}
+    {{ render_pagination(page_obj, page_url) }}
   </div>
 {% endblock main %}
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #coding=utf-8
 
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, \
+    flash, request, current_app
 from myway.utils import db, navbar
 from myway.common.login import current_user
 
@@ -12,21 +13,29 @@ moduleid = 'blog'
 blogview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 
 @blogview.route('/')
-def index():
-    LIMIT = 8
+@blogview.route('/page/<int:page>')
+def index(page=1):
+    perpage = current_app.config['BLOG_PERPAGE']
     key = request.args.get('key', '')
-    
+
     query = Article.query
     if current_user.is_anonymous():
-        query = query.filter(db.and_(Article.status==3,
-                                     Article.visibility < 3))
+        query = query.filter(db.and_(Article.status==3, Article.visibility < 3))
     if key:
         ikey = '%' + key + '%'
-        query = query.filter(db.or_(Article.title.ilike(ikey),
-                                    Article.md_content.ilike(ikey)))
-    articles = query.order_by(Article.created_at.desc())\
-                            .offset(0).limit(LIMIT).all()
-    return render_template('blog/index.html', articles=articles, key=key)
+        query = query.filter(db.or_(Article.title.ilike(ikey), Article.md_content.ilike(ikey)))
+
+    query = query.order_by(Article.create_at.desc())
+    page_obj = query.paginate(page=page, per_page=perpage)
+    page_url = lambda page: url_for('blog.index', page=page)
+    recents = Article.query.order_by(Article.create_at.desc()).offset(0).limit(perpage)
+    kwargs = {
+        'key'      : key,
+        'page_obj' : page_obj,
+        'page_url' : page_url,
+        'recents'  : recents
+    }
+    return render_template('blog/index.html', **kwargs)
 
 
 @blogview.route('/<int:id>')
@@ -46,8 +55,14 @@ def new():
         db.session.commit()
         flash('New article added!', 'success')
         return redirect(url_for('blog.edit', id=article.id))
-    return render_template('blog/new-edit.html', form=form,
-                           action=url_for('blog.new'), title=u'New Article')
+        
+    kwargs = {
+        'form'   : form,
+        'action' : url_for('blog.new'),
+        'title'  : u'New Article'
+    }
+    return render_template('blog/new-edit.html', **kwargs)
+
 
 
 @blogview.route('/edit/<int:id>', methods=['GET', 'POST'])
@@ -61,10 +76,16 @@ def edit(id):
         flash('Updated!', 'success')
         return redirect(url_for('blog.edit', id=article.id))
     form.process(obj=article)
-    return render_template('blog/new-edit.html', form=form,
-                           action=url_for('blog.edit', id=id),
-                           view_link=url_for('blog.single', id=id),
-                           title=u'Edit: %s' % article.title)
+    
+    kwargs = {
+        'form'      : form,
+        'action'    : url_for('blog.edit', id=id),
+        'view_link' : url_for('blog.single', id=id),
+        'title'     : u'Edit: %s' % article.title
+    }
+    return render_template('blog/new-edit.html', **kwargs)
+
+                           
 
 
 @blogview.route('/delete/<int:id>', methods=['GET', 'POST'])

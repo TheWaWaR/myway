@@ -30,6 +30,32 @@
     color: #18a011;
 }
 
+/* =Pagination */
+.pagination ul{
+    border: 1px solid #CCC;
+    /*border-bottom: 1px solid #CCC;*/
+    border-radius: 5px;
+    padding: 3px 8px;
+    float: right;
+}
+
+.pagination ul li{
+    list-style: none;
+    float: left;
+    margin: 0 8px;
+}
+.pagination ul li a{
+    text-decoration: none;
+}
+.pagination ul li a:hover{
+    text-decoration: underline;
+}
+
+.pagination ul li span{
+    color: #AAA;
+}
+
+
 /* =Gallery.main */
 #gallery {
     text-align: center;

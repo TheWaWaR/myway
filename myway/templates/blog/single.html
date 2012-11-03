@@ -38,7 +38,7 @@
           <a href="{{ url_for('blog.edit', id=article.id) }}">Edit</a>
           <a href="{{ url_for('blog.delete', id=article.id) }}" class="btn-delete">Delete</a>
           {% endif %}
-          <span>{{ article.created_at.strftime('%Y-%m-%d %H:%M')}}</span>
+          <span>{{ article.create_at.strftime('%Y-%m-%d %H:%M')}}</span>
         </div>
       </div>
       <div class="content">{{ article.content | safe }}</div>

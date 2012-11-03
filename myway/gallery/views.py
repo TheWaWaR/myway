@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #coding=utf-8
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, \
+    url_for, flash, current_app
 from myway.utils import db, navbar
 from myway.gallery.models import Image
 
@@ -11,15 +12,26 @@ galleryview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 
 @galleryview.route('/')
 def index():
-    LIMIT = 10
+    perpage = current_app.config['GALLERY_PERPAGE']
+    page = request.args.get('page', 1, type=int)
     key = request.args.get('key', '')
     query = Image.query
     if key:
         ikey = '%' + key + '%'
         query = query.filter(db.or_(Image.source_name.ilike(ikey),
-                                    Image.title.ilike(ikey)))
-    images = query.order_by(Image.id.desc()).offset(0).limit(LIMIT).all()
-    return render_template('gallery/index.html', key=key, images=images)
+                                    Image.title.ilike(ikey),
+                                    Image.tag.ilike(ikey)))
+    query = query.order_by(Image.create_at.desc())
+    page_obj = query.paginate(page=page, per_page=perpage)
+    page_url = lambda page : url_for('gallery.index', page=page)
+    recents = Image.query.order_by(Image.create_at.desc()).offset(0).limit(perpage)
+    kwargs = {
+        'key'     : key,
+        'page_obj': page_obj,
+        'page_url': page_url,
+        'recents' : recents
+    }
+    return render_template('gallery/index.html', **kwargs)
 
 
 @galleryview.route('/view/<int:id>')

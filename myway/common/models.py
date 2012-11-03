@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     login      = db.Column(db.String(100))
     name       = db.Column(db.String(100))
     password   = db.Column(db.String(200))
-    created_at = db.Column(db.DateTime, default=datetime.now)
+    create_at = db.Column(db.DateTime, default=datetime.now)
     last_login = db.Column(db.DateTime)
 
     def check_passwd(self, passwd):

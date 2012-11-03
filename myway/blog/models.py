@@ -19,8 +19,8 @@ class Article(db.Model):
     summary     = db.Column(db.Text)
     has_more    = db.Column(db.Boolean)
     content     = db.Column(db.Text)
-    created_at  = db.Column(db.DateTime, default=datetime.now)
-    updated_at  = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    create_at  = db.Column(db.DateTime, default=datetime.now)
+    update_at  = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     md_name        = db.Column(db.String(200))
     md_content     = db.Column(db.Text)
@@ -33,12 +33,14 @@ class Article(db.Model):
         self.content = md.render(self.md_content)
         
         paragraphs = self.content.split('</p>')
+        if not paragraphs[-1].strip(): paragraphs = paragraphs[:-1]
         plen = len(paragraphs)
-	idx = length = 0
-	for i in range(plen):
+        idx = length = 0
+        for i in range(plen):
             length += len(paragraphs[i])
-            if length > 360 or (i < plen-1 and length+len(paragraphs[i+1]) > 480): 
-                idx = i
+            idx = i
+            if i >= 3 or length > 360 or \
+               (i < plen-1 and length+len(paragraphs[i+1]) > 480):
                 break
         self.has_more = True if idx < plen-1 else False
         self.summary = '</p>'.join(paragraphs[:idx+1]) + '</p>'
@@ -51,5 +53,5 @@ class Category(db.Model):
     id         = db.Column(db.Integer, primary_key=True)
     name       = db.Column(db.String(100))
     descr      = db.Column(db.String(500))
-    created_at = db.Column(db.DateTime, default=datetime.now)
-    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
