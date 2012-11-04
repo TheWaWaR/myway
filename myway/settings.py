@@ -9,7 +9,9 @@ IMAGE_EXTS = ('png', 'jpg', 'jpeg', 'gif', 'bmp')
 IMAGE_EXTS_STR = '|'.join(['%s|%s' % (ext, ext.upper()) for ext in IMAGE_EXTS])
 UPLOAD_URI = '/static/uploads/'
 
-from myway.local_settings import UPLOAD_FOLDER
+from myway.local_settings import ROOT
+LOG_PATH = ROOT + 'log/'
+UPLOAD_FOLDER = ROOT + 'myway/static/uploads/'
 IMAGES_URI = UPLOAD_URI + 'images/'
 THUMBS_URI = IMAGES_URI + 'thumbs/'
 UPLOADED_IMAGES_DEST = UPLOAD_FOLDER + 'images/'
@@ -24,3 +26,5 @@ BLOG_PERPAGE = 5
 GALLERY_PERPAGE = 8
 
 from myway.local_settings import *
+# SQLALCHEMY_DATABASE_URI = 'mysql://root:hello123@localhost/myway'
+# ROOT = '/root/Projects/myway/
