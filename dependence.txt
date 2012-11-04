@@ -1,7 +1,0 @@
-flask
-flask_sqlalchemy
-flask_wtf
-flask_uploads
-pillow  # Image process
-misaka  # Markdown parser
-MySQLdb # by system package
