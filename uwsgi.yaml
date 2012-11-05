@@ -9,6 +9,6 @@ uwsgi:
   workers      : 4
   threads      : 10
   idle         : 1800
-  logto        : /home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/log/uwsgi.log
+  #logto        : /home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/log/uwsgi.log
   static-map   : /static=/home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/myway/static
 
