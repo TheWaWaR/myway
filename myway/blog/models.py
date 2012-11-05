@@ -16,14 +16,14 @@ class Article(db.Model):
     status      = db.Column(db.Integer) # 1. Draft, 2. Pending Review, 3. Published, 4. Deleted,
     visibility  = db.Column(db.Integer) # 1. Public, 2. Password protected, 3. Private
     password    = db.Column(db.String(200))
-    summary     = db.Column(db.Text)
+    summary     = db.defer(db.Column(db.Text))
     has_more    = db.Column(db.Boolean)
-    content     = db.Column(db.Text)
+    content     = db.defer(db.Column(db.Text))
     create_at  = db.Column(db.DateTime, default=datetime.now)
     update_at  = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     md_name        = db.Column(db.String(200))
-    md_content     = db.Column(db.Text)
+    md_content     = db.defer(db.Column(db.Text))
     md_last_modify = db.Column(db.DateTime, onupdate=datetime.now)
     
     author   = db.relationship('User')

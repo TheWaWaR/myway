@@ -1,0 +1,14 @@
+uwsgi: 
+  pythonpath   : /usr/local/lib/python2.7/dist-packages/
+  pythonpath   : /home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/
+  socket       : /tmp/uwsgi.sock
+  chmod-socket : 666
+  callable     : app
+  master       : true
+  module       : manager
+  workers      : 4
+  threads      : 10
+  idle         : 1800
+  logto        : /home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/log/uwsgi.log
+  static-map   : /static=/home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/myway/static
+
