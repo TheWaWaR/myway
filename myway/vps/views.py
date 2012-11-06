@@ -18,15 +18,15 @@ def utf8(s):
 
 @vpsview.route('/')
 def index():
-    if current_user.is_anonymous():
-        return "Hey, It's is private!"
+    # if current_user.is_anonymous():
+    #     return "Hey, It's is private!"
     return render_template('vps/index.html')
 
 
 @vpsview.route('/exec', methods=['POST'])
 def ajax_execute():
-    if current_user.is_anonymous():
-        return "Hey, It's is private!"
+    # if current_user.is_anonymous():
+    #     return "Hey, It's is private!"
     command = request.form.get('command', 'None')
     from commands import getstatusoutput
     status, output = getstatusoutput(command)
