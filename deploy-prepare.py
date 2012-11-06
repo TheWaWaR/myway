@@ -33,7 +33,8 @@ modules = [
     'flask_wtf',
     ('flask_uploads',  'flask.ext.uploads'),
     ('pillow', 'PIL')           # Image process
-    'misaka'                    # Markdown parser
+    'misaka',                   # Markdown parser
+    'fabric',                   # Deploy tools
 ]
 
 ## System package install
