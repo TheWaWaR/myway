@@ -6,7 +6,7 @@ uwsgi:
   callable     : app
   master       : true
   module       : manager
-  workers      : 4
+  workers      : 8
   threads      : 10
   idle         : 1800
   #logto        : /home/weet/GitHub/environments/FlaskLearn/vps-BluePrint/log/uwsgi.log

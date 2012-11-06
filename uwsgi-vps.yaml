@@ -6,7 +6,7 @@ uwsgi:
   callable     : app
   master       : true
   module       : manager
-  workers      : 4
+  workers      : 8
   threads      : 10
   idle         : 1800
   logto        : /root/projects/myway/log/uwsgi.log

@@ -42,11 +42,9 @@ def index(page=1):
 
 @blogview.route('/<int:id>')
 def single(id):
-    query = Article.query.filter_by(id=id)
-    if current_user.is_anonymous():
-        query = query.filter(db.and_(Article.status==3,
-                                     Article.visibility<3))
-    article = query.first()
+    article = Article.fquery.filter(db.and_(Article.id==id,
+                                           Article.status==3,
+                                           Article.visibility<3)).first()
     if not article: abort(404) 
     return render_template('blog/single.html', article=article)
 
