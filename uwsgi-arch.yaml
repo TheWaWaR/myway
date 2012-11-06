@@ -1,6 +1,6 @@
 uwsgi: 
   pythonpath   : /usr/local/lib/python2.7/dist-packages/
-  pythonpath   : /root/projects/myway
+  pythonpath   : /root/Projects/myway
   socket       : /tmp/uwsgi.sock
   chmod-socket : 666
   callable     : app
@@ -9,7 +9,7 @@ uwsgi:
   workers      : 8
   threads      : 10
   idle         : 1800
-  touch-reload : /root/projects/myway/
-  logto        : /root/projects/myway/log/uwsgi.log
-  static-map   : /static=/root/projects/myway/myway/static
+  touch-reload : /root/Projects/myway/
+  logto        : /root/Projects/myway/log/uwsgi.log
+  static-map   : /static=/root/Projects/myway/myway/static
 
