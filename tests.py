@@ -5,4 +5,5 @@ import time
 from myway import app
 from myway import utils
 
+
 print utils.save_md()
