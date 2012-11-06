@@ -25,6 +25,7 @@
   <body class="kubepage" screen_capture_injected="true">
     
     <!-- 1. Header -->
+    {% block header %}
     <div class="wrapper">
       <header id="header">
         <h2><span>M-x </span> <a href="/blog/">WEET</a></h2>
@@ -36,7 +37,9 @@
           </ul>
         {% endblock nav %}
       </header>
-    </div> <!-- end.header -->
+    </div>
+    {% endblock header %}
+    <!-- end.header -->
 
     <!-- 2. Main -->
     <div id="box-inside-white">
@@ -71,6 +74,7 @@
     {% block hidden_html %}{% endblock hidden_html %}
 
     <!-- 3. Footer -->
+    {% block footer %}
     <div class="wrapper">
       <footer id="footer">
 	<ul>
@@ -80,6 +84,8 @@
         </ul>	
 	<p>© weet 1989-2012</p>
       </footer>
-    </div> <!-- end.footer -->
+    </div>
+    {% endblock footer %}
+    <!-- end.footer -->
   </body>
 </html>

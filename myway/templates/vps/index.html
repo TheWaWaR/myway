@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block title %}VPS{% endblock %}
+
+
+{% block js_extra %}
+  <script type="text/javascript">
+    $(function(){
+        $('#command form').submit(function(e){
+            var $cmd = $(this).find('input');
+            $.post($(this).attr('action'),
+                   {'command': $cmd.val()},
+                   function(data){
+                       $('#output >pre').text(data);
+                       $cmd.val('');
+                   }
+                  );
+            return false;
+        });
+    });        
+  </script>
+{% endblock js_extra %}
+
+{% block main %}
+  <div id="shell" class="fivesixth centered">
+    <div id="output">
+    <pre>
+    </pre>
+    </div>
+    <div id="command">
+      <form method="POST" action="/vps/exec">
+        <input type="text" name="command" value=""/>
+      </form>
+    </div>
+  </div>
+{% endblock main %}
