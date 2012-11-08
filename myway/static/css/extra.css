@@ -92,7 +92,8 @@
     box-shadow: rgba(0, 0, 0, 0.3) 0 2px 3px;
 }
 
-#command{
+#command form{
+    margin-bottom: 6px;
 }
 
 #command input{
