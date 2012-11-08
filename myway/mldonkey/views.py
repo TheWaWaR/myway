@@ -12,4 +12,4 @@ mldonkeyview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 def inject_navid():
     return dict(navid=moduleid)
     
-navbar.add(moduleid, moduleid.title(), '/%s/' % moduleid)
+# navbar.add(moduleid, moduleid.title(), '/%s/' % moduleid)
