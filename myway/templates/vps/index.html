@@ -25,14 +25,14 @@
 
 {% block main %}
   <div id="shell" class="five centered">
-    <div id="output">
-    <pre>
-    </pre>
-    </div>
     <div id="command">
       <form method="POST" action="/vps/exec">
         <input type="text" name="command" value=""/>
       </form>
+    </div>
+    <div id="output">
+    <pre>
+    </pre>
     </div>
   </div>
 {% endblock main %}
