@@ -25,6 +25,7 @@ def index():
 
 @vpsview.route('/exec', methods=['POST'])
 def ajax_execute():
+    return 'Hey, Nothing here!'
     if current_user.is_anonymous():
         return "Hey, It's is private!"
     command = request.form.get('command', 'None')
