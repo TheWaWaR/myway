@@ -1,0 +1,14 @@
+uwsgi: 
+  pythonpath   : /usr/local/lib/python2.7/dist-packages/
+  pythonpath   : /root/projects/vorce/
+  socket       : /tmp/uwsgi-vorce.sock
+  chmod-socket : 666
+  callable     : app
+  master       : true
+  module       : manager
+  workers      : 4
+  threads      : 10
+  idle         : 1800
+  touch-reload : /root/projects/vorce/
+  logto        : /root/projects/vorce/log/uwsgi.log
+  static-map   : /static=/root/projects/vorce/myway/static
