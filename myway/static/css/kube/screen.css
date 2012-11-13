@@ -186,9 +186,9 @@ body.redactorpage #header h2 {
 }
 
 body.kubepage #header h2 {
-    padding-left: 52px;
+    /* padding-left: 52px; */
     /* background: url(/static/images/kube/ico_kube.png) no-repeat; */
-    background: url(/static/images/kube/emacs.png) no-repeat;
+    /* background: url(/static/images/kube/emacs.png) no-repeat; */
     line-height: 48px;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
@@ -217,7 +217,8 @@ body.kubepage #header h2 {
     color: #999;
 }
 #header ul li a {
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-family: Arial, sans-serif;
     color: #444;
     text-decoration: none;
 }
