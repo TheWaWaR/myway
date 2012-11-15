@@ -33,7 +33,7 @@ class Image(db.Model):
         return os.path.join(upload_folder, self.filename)
 
         
-    def save(self, file_data, tag, title):
+    def save(self, file_data, tag, title, is_public):
         source_name = secure_filename(file_data.filename)
         filename = '.'.join([md5(source_name).hexdigest() + str(rand.randint(0, 1000)),
                              source_name.split('.')[-1]])
@@ -48,6 +48,7 @@ class Image(db.Model):
         self.source_name = source_name
         self.tag = tag
         self.title = title
+	self.is_public = is_public
         self.thumb = thumb
         db.session.add(self)
 

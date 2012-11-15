@@ -16,9 +16,10 @@ def index():
     perpage = current_app.config['GALLERY_PERPAGE']
     page = request.args.get('page', 1, type=int)
     key = request.args.get('key', '')
-    query = Image.query
+    base_query = Image.query
     if current_user.is_anonymous():
-        query = query.filter_by(is_public=1)
+        base_query = base_query.filter_by(is_public=1)
+    query = base_query
     if key:
         ikey = '%' + key + '%'
         query = query.filter(db.or_(Image.source_name.ilike(ikey),
@@ -27,7 +28,7 @@ def index():
     query = query.order_by(Image.create_at.desc())
     page_obj = query.paginate(page=page, per_page=perpage)
     page_url = lambda page : url_for('gallery.index', page=page)
-    recents = Image.query.order_by(Image.create_at.desc()).offset(0).limit(perpage)
+    recents = base_query.order_by(Image.create_at.desc()).offset(0).limit(perpage)
     kwargs = {
         'key'     : key,
         'page_obj': page_obj,
@@ -50,7 +51,7 @@ def upload():
 
     if form.validate_on_submit():
         image = Image()
-        image.save(form.image.data, form.tag.data, form.title.data)
+        image.save(form.image.data, form.tag.data, form.title.data, form.is_public.data)
         db.session.commit()
         flash(u'%s(%s) Uploaded!' % (image.source_name, image.title), 'success')
         return redirect(url_for('gallery.upload'))
