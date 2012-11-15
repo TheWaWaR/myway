@@ -3,6 +3,7 @@
 
 from flask import Blueprint, render_template, request, redirect, \
     url_for, flash, current_app
+from myway.common.login import current_user
 from myway.utils import db, navbar
 from myway.gallery.models import Image
 
@@ -16,6 +17,8 @@ def index():
     page = request.args.get('page', 1, type=int)
     key = request.args.get('key', '')
     query = Image.query
+    if current_user.is_anonymous():
+        query = query.filter_by(is_public=1)
     if key:
         ikey = '%' + key + '%'
         query = query.filter(db.or_(Image.source_name.ilike(ikey),

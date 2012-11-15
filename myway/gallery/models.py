@@ -21,6 +21,7 @@ class Image(db.Model):
     tag         = db.Column(db.String(100))  # Reference from the article
     title       = db.Column(db.String(200))  # Also Description, Name
     thumb_id    = db.Column(db.Integer, db.ForeignKey('thumbs.id', ondelete='CASCADE'))
+    is_public   = db.Column(db.Integer(1), default=1)
     create_at   = db.Column(db.DateTime, default=datetime.now)
     update_at   = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
