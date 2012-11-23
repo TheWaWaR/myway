@@ -3,7 +3,8 @@
 
 import os
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request,\
+	 redirect, url_for, flash, json
 from myway.utils import db
 from myway.blog.models import Article
 from .models import User
