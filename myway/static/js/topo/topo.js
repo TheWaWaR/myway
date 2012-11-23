@@ -37,6 +37,6 @@ $(function(){
   path = '';
   loadDirectoryTree('#tree');
   
-  path = 'root-0,olt-1';
+  path = 'root-0,star-1';
   $('#layout select').change();
 });
