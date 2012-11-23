@@ -12,6 +12,13 @@
     border-bottom: 1px solid #D5D5D5;
 }
 
+#toolbar form {
+    margin: 0;
+}
+#toolbar select {
+    height: 1.8em;
+}
+
 .toolbar-item {
     float: left;
     margin-left: 8px;
@@ -32,7 +39,7 @@
     font-family: Times, "宋体";
 }
 .chart rect {
-    fill: #DFF;
+    fill: #FFF;
 }
 
 .chart .node circle {
@@ -44,6 +51,9 @@
     font: 10px sans-serif;
 }
 
+.node text {
+    font: 14px sans-serif;
+}
 
 .chart .node text{
     fill: #333;
@@ -106,7 +116,6 @@
 
 #tree .node text {
   fill: #111;
-  font: 14px sans-serif;
   pointer-events: none;
 }
 

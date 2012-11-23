@@ -4,7 +4,6 @@
 
 {% block css_extra %}
   <link type="text/css" rel="stylesheet" href="/static/js/topo/topo.css"/>
-  <link type="text/css" rel="stylesheet" href="/static/js/topo/bootstrap.css"/>
   <link type="text/css" rel="stylesheet" href="/static/js/topo/jquery.contextMenu.css"/>
 {% endblock css_extra %}  
 
@@ -26,7 +25,6 @@
   <div class="content">
     <div class="quarter">
       <div id="sidebar">
-        <span class="nav-header popover-title">拓扑导航</span>
         <div id="tree">
         </div>
       </div>
@@ -35,19 +33,6 @@
     <div class="threequarter">
       <div id="panel">
         <div id="toolbar">
-          <div id="zoom" class="btn-group toolbar-item">
-            <button type="button" id="zoom-out" class="btn btn-small"><i class="icon-minus"></i></button>
-            <button type="button" id="zoom-in" class="btn btn-small"><i class="icon-plus"></i></button>
-            <button type="button" id="zoom-reset" class="btn btn-small">1:1</button>
-          </div>
-          <form method="GET" class="form toolbar-item">
-            <div class="form-inline input-append" style="margin:0px;">
-              <input type="hidden" id="lastid" name="lastid" value="" />
-              <input class="input-low" data-provide="typeahead" id="keyword" name="keyword" placeholder="节点名称" type="text">
-                <button type="submit" data-placement="bottom" rel="tooltip"
-	                class="btn btn-small" data-original-title="搜索"><i class="icon-search"></i></button>
-            </div>
-          </form>
           <div id="layout", class="toolbar-item">
             <select class="auto-width input-low">
               <option value="circle">环型</option>
@@ -56,6 +41,19 @@
               <option value="force">散射</option>
             </select>
           </div>
+          <div id="zoom" class="btn-group toolbar-item">
+            <button type="button" id="zoom-out" class="btn "><strong>-</strong></button>
+            <button type="button" id="zoom-in" class="btn "><strong>+</strong></button>
+            <button type="button" id="zoom-reset" class="btn ">1:1</button>
+          </div>
+          <form method="GET" class="form toolbar-item">
+            <div class="btn-group">
+              <input type="hidden" id="lastid" name="lastid" value="" />
+              <input class="input-low" data-provide="typeahead" id="keyword" name="keyword" placeholder="节点名称" type="text">
+                <button type="submit" data-placement="bottom" rel="tooltip"
+	                class="btn btn-round" data-original-title="搜索">搜索</button>
+            </div>
+          </form>
           <br class="clear" />
         </div>
         <div id="tichart" class="chart tree-chart"></div>

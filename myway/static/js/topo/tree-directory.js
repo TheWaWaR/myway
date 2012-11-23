@@ -22,7 +22,7 @@ function loadDirectoryTree(sid) {
     .attr("width", w)
     .attr("height", h)
     .append("svg:g")
-    .attr("transform", "translate(6, 12)");
+    .attr("transform", "translate(6, 36)");
 
   d3.json("/topo/directory.json?path="+path, function (tjson) {
     tjson.x0 = 0;

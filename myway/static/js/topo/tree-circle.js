@@ -103,12 +103,12 @@ function getCurrentMiddle(tn){
   var dx = (tn.x - extra) ;
   var dy = tn.y;
   var dz = Math.sqrt(dx*dx + dy*dy);
-  console.log("maxR, dz:", maxR, dz);
+  //console.log("maxR, dz:", maxR, dz);
   if (dz > maxR){
     dx = dx * maxR / dz;
     dy = dy * maxR / dz;
   }
-  console.log("dx, dy:", dx, dy);
+  // console.log("dx, dy:", dx, dy);
   return {x: dx,
           y: dy};
 }
