@@ -132,17 +132,21 @@
 
 /* =Article */
 .article {
-	position: relative;
-	color: #111;
-	padding: 20px 10px ;
-        margin-bottom: 30px;
-	/* border: 1px solid #DDD; */
-	/* border-radius: 6px; */
-	/* box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px; */
-	/* background-color: #F8F4E7;/\*#FEFEE3; #FDFDDA; *\/ */
+    position: relative;
+    color: #111;
+    padding: 20px 10px ;
+    margin-bottom: 30px;
+/* border: 1px solid #DDD; */
+/* border-radius: 6px; */
+/* box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px; */
+/* background-color: #F8F4E7;/\*#FEFEE3; #FDFDDA; *\/ */
+}
+.articles .article{
+    border-bottom: 1px solid #DDD;
+    margin-bottom: 75px;
 }
 
-.article#single {
+#single.article {
     text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
@@ -156,14 +160,14 @@
 
 .article .title{
     text-align: center;
-    border-bottom: 2px #E5E5E5 dotted;
+    /* border-bottom: 2px #E5E5E5 dotted; */
     margin-bottom: 22px;
 }
 .article .title h1 {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .article .title h2 {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .article .title a {
@@ -185,11 +189,11 @@
 }
 
 .article figure{
-	text-align: center;
+    text-align: center;
 }
 .article blockquote, .article figcaption {
-	font-family: "Microsoft Yahei";
-	font-size: 90%;
+    font-family: "Microsoft Yahei";
+    font-size: 90%;
 }
 /* =Markdown pagedown */
 #wmd-button-bar  {
