@@ -48,23 +48,23 @@ body {
 
 
 h1 {
-    font-size: 1.95em;
+    font-size: 1.75em;
     line-height: 1.1em;
 }
 /* (- 2.5714285714285716 2.142857142857143) 0.42857 */
 h2 {
-    font-size: 1.75em;
+    font-size: 1.55em;
     line-height: 1.1em;
 }
 /* (- 2.142857142857143 1.7142857142857142) 0.42857 */
 h3 {
-    font-size: 1.55em;
-    line-height: 1.3em;
+    font-size: 1.35em;
+    line-height: 1.2em;
 }
 /* (- 1.7142857142857142 1.2857142857142858) 0.42857 */
 h4 {
-    font-size: 1.35em;
-    line-height: 1.3em;
+    font-size: 1.1em;
+    line-height: 1.2em;
 }
 /* (- 1.2857142857142858 1.1428571428571428) 0.142857 */
 
