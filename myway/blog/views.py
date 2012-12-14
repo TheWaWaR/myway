@@ -20,7 +20,7 @@ def index(page=1):
 
     base_query = Article.query
     if current_user.is_anonymous():
-        base_query = base_query.filter(db.and_(Article.status==3, Article.visibility < 3))
+        base_query = base_query.filter(db.and_(Article.status==3, Article.visibility < 2))
     base_query = base_query.order_by(Article.create_at.desc())
 
     query = base_query
