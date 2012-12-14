@@ -28,6 +28,10 @@ class Image(db.Model):
     thumb = db.relation('Thumb')
 
     @property
+    def is_public(self):
+        return self.is_public == 1
+
+    @property
     def path(self):
         upload_folder = current_app.config['UPLOADED_IMAGES_DEST']
         return os.path.join(upload_folder, self.filename)
@@ -48,7 +52,7 @@ class Image(db.Model):
         self.source_name = source_name
         self.tag = tag
         self.title = title
-	self.is_public = is_public
+	self.is_public = str(is_public)
         self.thumb = thumb
         db.session.add(self)
 

@@ -29,6 +29,13 @@ def create_app(cfg):
     login_mgr.init_app(app)
     db.app = app
     configure_uploads(app, (images, ))
+
+    @app.context_processor
+    def inject_vars():
+        vars = {
+            'islogin' : not current_user.is_anonymous()
+        }
+        return vars
     
     return app
 

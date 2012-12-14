@@ -29,6 +29,26 @@ class Article(db.Model):
     author   = db.relationship('User')
     category = db.relationship('Category')
 
+    @property
+    def is_private(self):
+        return self.visibility == 3
+    
+    @property
+    def is_protected(self):
+        return self.visibility == 2
+    
+    @property
+    def is_public(self):
+        return self.visibility == 1
+
+    @property
+    def visibility_info(self):
+        return {
+            1: '',
+            2: '[protected]',
+            3: '[private]'
+        }[self.visibility]
+
     def refresh(self):
         self.content = md.render(self.md_content)
         

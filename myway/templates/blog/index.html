@@ -27,87 +27,93 @@
 {% endblock js_extra %}
 
 {% block sidebar %}
-<div class="search">
-  <form method="GET" id="" action="/blog/">
+  <div class="search">
+    <form method="GET" id="" action="/blog/">
+      <ul class="list-toc">
+        <li>
+          <input type="text" name="key" class="input-search"
+                 placeholder="Title or Content" value="{{ key }}">
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  {% if key %}
+    <div class="search-results">
+      <ul class="list-toc">
+        <li><span>Search Results</span></li>
+        {% for article in page_obj.items %}
+          <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if islogin %}
+    <div class="sidebar-menu">
+      <ul class="list-toc">
+        <li><a class="btn btn-round" href="/blog/new">New</a></li>
+      </ul>
+    </div>
+  {% endif %}
+
+  <div class="recent-articles">
     <ul class="list-toc">
-      <li>
-        <input type="text" name="key" class="input-search"
-               placeholder="Title or Content" value="{{ key }}">
-      </li>
+      <li><span>Recent Posts</span></li>
+      {% for article in recents %}
+        <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
+      {% endfor %}
     </ul>
-  </form>
-</div>
-
-{% if key %}
-<div class="search-results">
-  <ul class="list-toc">
-    <li><span>Search Results</span></li>
-    {% for article in page_obj.items %}
-    <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
-
-{% if not current_user.is_anonymous() %}
-<div class="sidebar-menu">
-  <ul class="list-toc">
-    <li><a class="btn btn-round" href="/blog/new">New</a></li>
-  </ul>
-</div>
-{% endif %}
-
-<div class="recent-articles">
-  <ul class="list-toc">
-    <li><span>Recent Posts</span></li>
-    {% for article in recents %}
-    <li><a href="{{ url_for('blog.single', id=article.id) }}">{{ article.title }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
+  </div>
 {% endblock sidebar %}
 
 
 
 {% block content %}
-<div class="articles" >
-  {% for article in page_obj.items %}
-  <div class="article">
-    <div class="title">
-      <a href="{{ url_for('blog.single', id=article.id) }}">
-        <h2>{{ article.title }}</h2>
-      </a>
-      <div class="meta push-right">
-        {% if not current_user.is_anonymous() %}
-        <a href="{{ url_for('blog.edit', id=article.id) }}" >Edit</a>
-        <a href="{{ url_for('blog.delete', id=article.id) }}" class="btn-delete">Delete</a>
-        {% endif %}
-        <span>{{ article.create_at.strftime('%Y-%m-%d %H:%M')}}</span>
+  <div class="articles" >
+    {% for article in page_obj.items %}
+      <div class="article">
+        <div class="title">
+          <a href="{{ url_for('blog.single', id=article.id) }}">
+            <h2>
+              {% if not islogin and article.is_protected %}
+                ...
+              {% else %}
+                {{ article.title }}<span>{{ article.visibility_info }}</span>
+              {% endif %}
+            </h2>
+          </a>
+          <div class="meta push-right">
+            {% if islogin %}
+              <a href="{{ url_for('blog.edit', id=article.id) }}" >Edit</a>
+              <a href="{{ url_for('blog.delete', id=article.id) }}" class="btn-delete">Delete</a>
+            {% endif %}
+            <span>{{ article.create_at.strftime('%Y-%m-%d %H:%M')}}</span>
+          </div>
+        </div>
+        <div class="content">
+          {% if not islogin and article.is_protected %}
+            <h4>(Password required)</h4>
+          {% else %}
+            {{ article.summary | safe }}
+            {% if article.has_more %}
+              <p><a href="{{ url_for('blog.single', id=article.id) }}">Read More ...</a></p>
+            {% endif %}
+          {% endif %}
+        </div>
       </div>
-    </div>
-    <div class="content">
-      {% if current_user.is_anonymous() and article.visibility == 2 %}
-        <h4>(Password required)</h4>
-      {% else %}
-        {{ article.summary | safe }}
-        {% if article.has_more %}
-        <p><a href="{{ url_for('blog.single', id=article.id) }}">Read More ...</a></p>
-        {% endif %}
-      {% endif %}
-    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
-{% from "macros/common.html" import render_pagination %}
-{{ render_pagination(page_obj, page_url) }}
+  {% from "macros/common.html" import render_pagination %}
+  {{ render_pagination(page_obj, page_url) }}
 {% endblock %}
 
 
 {% block hidden_html %}
-<div id="delete-dialog-modal" style="display:none;">
-  <p><span class="opt">Delete<span> (<span class="title"></span>) ?</p>
-  <div id="simplemodal-footer">
-    <a class="btn bold " href="#">Delete</a>
+  <div id="delete-dialog-modal" style="display:none;">
+    <p><span class="opt">Delete<span> (<span class="title"></span>) ?</p>
+    <div id="simplemodal-footer">
+      <a class="btn bold " href="#">Delete</a>
+    </div>
   </div>
-</div>
 {% endblock hidden_html %}

@@ -145,6 +145,9 @@
     border-bottom: 1px solid #DDD;
     margin-bottom: 75px;
 }
+.articles hr {
+    border-top: 1px dotted #DEDEDE;
+}
 
 #single.article {
     text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
@@ -163,13 +166,14 @@
     /* border-bottom: 2px #E5E5E5 dotted; */
     margin-bottom: 22px;
 }
-.article .title h1 {
+.article .title h1, .article .title h2{
     margin-bottom: 20px;
 }
-.article .title h2 {
-    margin-bottom: 20px;
+.article .title h2 span{
+    color: #BBB;
+    font-weight: normal;
+    margin-left: 12px;
 }
-
 .article .title a {
     text-decoration: none;
 }
