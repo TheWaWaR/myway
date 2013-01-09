@@ -18,7 +18,7 @@ def index():
     key = request.args.get('key', '')
     base_query = Image.query
     if current_user.is_anonymous():
-        base_query = base_query.filter_by(is_public=1)
+        base_query = base_query.filter(Image.public==1)
     query = base_query
     if key:
         ikey = '%' + key + '%'

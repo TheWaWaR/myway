@@ -21,7 +21,7 @@ class Image(db.Model):
     tag         = db.Column(db.String(100))  # Reference from the article
     title       = db.Column(db.String(200))  # Also Description, Name
     thumb_id    = db.Column(db.Integer, db.ForeignKey('thumbs.id', ondelete='CASCADE'))
-    is_public   = db.Column(db.Integer(1), default=1)
+    public      = db.Column(db.Integer(1), default=1)
     create_at   = db.Column(db.DateTime, default=datetime.now)
     update_at   = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -29,7 +29,7 @@ class Image(db.Model):
 
     @property
     def is_public(self):
-        return self.is_public == 1
+        return self.public == 1
 
     @property
     def path(self):
@@ -52,7 +52,7 @@ class Image(db.Model):
         self.source_name = source_name
         self.tag = tag
         self.title = title
-	self.is_public = str(is_public)
+	self.public = str(is_public)
         self.thumb = thumb
         db.session.add(self)
 
