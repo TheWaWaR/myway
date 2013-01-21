@@ -23,7 +23,7 @@ SQLALCHEMY_POOL_SIZE = 5
 SQLALCHEMY_POOL_TIMEOUT = 10
 
 BLOG_PERPAGE = 5
-GALLERY_PERPAGE = 8
+GALLERY_PERPAGE = 6
 
 from myway.local_settings import *
 # SQLALCHEMY_DATABASE_URI = 'mysql://root:hello123@localhost/myway'
