@@ -8,19 +8,18 @@ from myway.common.login import current_user
 
 from myway.common.views import commonview
 from myway.blog.views import blogview
-from myway.gallery.views import galleryview
 from myway.project.views import projectview
-from myway.mldonkey.views import mldonkeyview
-from myway.chat.views import chatview
 from myway.vps.views import vpsview
+# from myway.gallery.views import galleryview
+# from myway.mldonkey.views import mldonkeyview
+# from myway.chat.views import chatview
 
 def create_app(cfg):
     app = Flask(__name__)
     app.config.from_pyfile(cfg)
 
     # Register Blueprints
-    blueprints = [commonview, blogview, galleryview, 
-                  projectview, mldonkeyview, chatview, vpsview]
+    blueprints = [commonview, blogview, projectview, vpsview]
     for bp in blueprints:
         app.register_blueprint(bp)
 
@@ -36,10 +35,10 @@ def create_app(cfg):
             'islogin' : not current_user.is_anonymous()
         }
         return vars
-    
+
     return app
 
-    
+
 app = create_app('settings.py')
 
 
@@ -51,10 +50,10 @@ def page_not_found(e):
 @app.before_request
 def before_request():
     g.navbar = navbar
-    
+
     if current_user.is_anonymous():
         endpoint = request.endpoint
         if endpoint and endpoint.split('.')[-1] in ('new', 'edit', 'delete', 'upload'):
             return redirect(url_for('common.login', next=request.url))
-            
-    
+
+
