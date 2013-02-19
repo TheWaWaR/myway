@@ -46,7 +46,7 @@ def logout():
 # ==============================================================================
 #  Topo
 # ==============================================================================
-@commonview.route('/topo')
+@commonview.route('/topo-private')
 def topo():
     return render_template('common/topo.html')
 
