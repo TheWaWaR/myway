@@ -162,7 +162,7 @@ a:hover {
     margin: 0;
 }
 #header h2 a {
-    color: #7E9EC7;
+    color: #3E5E97;
     text-decoration: none;
 }
 #header h2 a:hover {
@@ -171,7 +171,7 @@ a:hover {
 
 #header h2 span{
     font-size: 12px;
-    color: #DADAEF;
+    color: #9A9AAF;
 }
 
 body.redactorpage #header h2 {
