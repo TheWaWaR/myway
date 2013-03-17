@@ -41,7 +41,8 @@ def update_private_statues():
             for t in tokens:
                 client.set_access_token(t.access_token, t.expires_in)
                 for i in range(6):
-                    client.statuses.update.post(status=u'Test private update ' + str(i) * 5 , visible=2)
+                    client.statuses.update.post(status=u'Test private update ' + str(i)*6, visible=2)
+                    time.sleep(5)
             time.sleep(3600*24)
         except IOError:
             time.sleep(60)
