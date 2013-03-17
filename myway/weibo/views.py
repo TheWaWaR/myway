@@ -49,7 +49,7 @@ def update_private_statues():
                     client.statuses.update.post(status=u'Test private update ' + str(i)*6, visible=2)
                     time.sleep(5)
             count += 1
-            time.sleep(3600*1)
+            time.sleep(3600*23.5)
         except IOError:
             time.sleep(60)
             print 'No token'
