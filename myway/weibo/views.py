@@ -17,7 +17,7 @@ TOKENS_FILE = 'tokens'
 PROCESS_STARTED = False
 
 
-def save_token(token):
+def save_token(nt):
     tokens = []
     try:
         input_file = open(TOKENS_FILE, 'rb')
@@ -26,9 +26,12 @@ def save_token(token):
     except IOError:
         print 'INIT tokens file'
 
-    tokens.append(token)
+    new_token_dict = {}
+    for t in tokens + [nt]:
+        new_token_dict[t.uid] = t
+    new_tokens = new_token_dict.values()
     output_file = open(TOKENS_FILE, 'wb')
-    pickle.dump(tokens, output_file)
+    pickle.dump(new_tokens, output_file)
     output_file.close()
 
 def update_private_statues():
