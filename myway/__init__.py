@@ -8,6 +8,7 @@ from myway.common.login import current_user
 
 from myway.common.views import commonview
 from myway.blog.views import blogview
+from myway.weibo.views import weiboview
 from myway.vps.views import vpsview
 # from myway.project.views import projectview
 # from myway.gallery.views import galleryview
@@ -19,7 +20,7 @@ def create_app(cfg):
     app.config.from_pyfile(cfg)
 
     # Register Blueprints
-    blueprints = [commonview, blogview, vpsview]
+    blueprints = [commonview, blogview, weiboview, vpsview]
     for bp in blueprints:
         app.register_blueprint(bp)
 
