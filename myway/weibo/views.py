@@ -7,8 +7,8 @@ from weibo import APIClient
 moduleid = 'weibo'
 weiboview = Blueprint(moduleid, __name__)
 
-API_KEY = '781743531'
-API_SECRET = '90849f6986665f841090d2e245e9f31c'
+APP_KEY = '781743531'
+APP_SECRET = '90849f6986665f841090d2e245e9f31c'
 CALLBACK_URL = 'http://ahorn.me/weibo/callback'
 
 
@@ -28,6 +28,5 @@ def weibo_callback():
     expires_in = r.expires_in # token过期的UNIX时间：http://zh.wikipedia.org/wiki/UNIX%E6%97%B6%E9%97%B4
     # TODO: 在此可保存access token
     client.set_access_token(access_token, expires_in)
-    print client.statuses.user_timeline.get()
     print client.statuses.update.post(status=u'测试OAuth 2.0发微博')
-    return 'OK'
+    return client.statuses.user_timeline.get()
