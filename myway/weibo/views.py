@@ -45,13 +45,13 @@ def save_token(nt):
 
 
 def sleep_util_next_day():
-    print 'SLEEP'
     IT = pytz.timezone('Asia/Shanghai')
     dt_day = timedelta(1)
     cn_now = datetime.now(IT)
     next_day = cn_now + dt_day
     next_cn_now = datetime(next_day.year, next_day.month, next_day.day, 2, 0, 0, 0, IT)
     d_secs = int((next_cn_now - cn_now).total_seconds())
+    print 'SLEEP <%d> minutes.' % (d_secs/60, )
     time.sleep(d_secs)
     print 'WEAK UP'
 
@@ -98,6 +98,7 @@ def update_private_statues():
                     status_ret = post_status(client, u'Test private update ' + str(i)*5, 2)
                     if status_ret is None:
                         continue
+                    print 'POSTED %d' % status_ret.id
                     status_ids.append(status_ret.id)
                     for j in range(10):
                         time.sleep(1)
@@ -107,6 +108,7 @@ def update_private_statues():
                     time.sleep(1)
                 post_status(client, MESSAGES[count%len(MESSAGES)], 2)
             time.sleep(15)
+            print 'POSTED ids %r' % status_ids
             for sid in status_ids:
                 client.statuses.destroy.post(id=sid)
                 time.sleep(1)
@@ -149,7 +151,7 @@ def stop():
 @weiboview.route('/callback')
 def callback():
     code = request.args.get('code', '')
-    print code
+    print 'New CODE: ' + code
     client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
     t = client.request_access_token(code)
     access_token = t.access_token # 新浪返回的token，类似abc123xyz456
@@ -161,3 +163,4 @@ def callback():
 
     save_token(t)
     return 'OK'
+
