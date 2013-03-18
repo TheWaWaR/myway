@@ -16,14 +16,16 @@ weiboview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 APP_KEY = '781743531'
 APP_SECRET = '90849f6986665f841090d2e245e9f31c'
 CALLBACK_URL = 'http://ahorn.me/weibo/callback'
+POMES_FILE = 'FeiNiaoJi.txt'
 TOKENS_FILE = 'tokens'
 QUEUE_FILE = 'queue'
 PROCESS_STARTED = False
 
-MESSAGES = [u'Good day!',
-        u'If you try something again and again and again, one day you\'ll get over it, the delightful sense is worth to fight!',
-        u'Happy day, boys!']
-
+def load_messages():
+    poems = None
+    with open(POMES_FILE, 'rb') as f:
+        poems = pickle.load(f)
+    return poems
 
 
 def save_token(nt):
@@ -82,6 +84,7 @@ def post_comment(client, cont, sid):
 
 def update_private_statues():
     count = 0
+    poems = load_messages()
     while True:
         if not check_queue_OK():
             return
@@ -109,7 +112,7 @@ def update_private_statues():
                         if cmt_ret is None:
                             continue
                     time.sleep(1)
-                post_status(client, MESSAGES[count%len(MESSAGES)], 2)
+                post_status(client, poems[count%len(poems)], 2)
             time.sleep(15)
             print 'POSTED ids %r' % status_ids
             for sid in status_ids:
