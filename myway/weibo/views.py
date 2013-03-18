@@ -86,6 +86,7 @@ def update_private_statues():
             time.sleep(60)
             for sid in status_ids:
                 client.statuses.destroy.post(sid)
+                time.sleep(2)
             count += 1
             sleep_util_next_day()
         except IOError:
