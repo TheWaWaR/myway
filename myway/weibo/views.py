@@ -154,7 +154,7 @@ def stop():
 @weiboview.route('/callback')
 def callback():
     code = request.args.get('code', '')
-    print code
+    print 'New CODE: ' + code
     client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
     t = client.request_access_token(code)
     access_token = t.access_token # 新浪返回的token，类似abc123xyz456
@@ -166,3 +166,4 @@ def callback():
 
     save_token(t)
     return 'OK'
+
