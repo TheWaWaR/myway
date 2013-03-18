@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import pytz
 from multiprocessing import Process
 from flask import Blueprint, request
-from weibo import APIClient
+from weibo import APIClient, APIError
 
 moduleid = 'weibo'
 weiboview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
@@ -45,6 +45,7 @@ def save_token(nt):
 
 
 def sleep_util_next_day():
+    print 'SLEEP'
     IT = pytz.timezone('Asia/Shanghai')
     dt_day = timedelta(1)
     cn_now = datetime.now(IT)
@@ -52,6 +53,7 @@ def sleep_util_next_day():
     next_cn_now = datetime(next_day.year, next_day.month, next_day.day, 2, 0, 0, 0, IT)
     d_secs = int((next_cn_now - cn_now).total_seconds())
     time.sleep(d_secs)
+    print 'WEAK UP'
 
 def check_queue_OK():
     is_OK = True
@@ -61,6 +63,20 @@ def check_queue_OK():
             if l.startswith('STOP'):
                 is_OK = False
     return is_OK
+
+def post_status(client, cont, visb):
+    try:
+        status_ret = client.statuses.update.post(status=cont, visible=visb)
+    except APIError, e:
+        print e
+    return status_ret
+
+def post_comment(client, cont, sid):
+    try:
+        cmt_ret = client.comments.create.post(comment=cont, id=sid)
+    except APIError, e:
+        print e
+    return cmt_ret
 
 def update_private_statues():
     count = 0
@@ -77,12 +93,13 @@ def update_private_statues():
                 print 'Update for %s, <%d>' % (str(t.uid), count)
                 client.set_access_token(t.access_token, t.expires_in)
                 for i in range(5):
-                    status_ret = client.statuses.update.post(status=u'Test private update ' + str(i)*5, visible=2)
+                    status_ret = post_status(client, u'Test private update ' + str(i)*5, 2)
                     status_ids.append(status_ret.id)
                     for j in range(10):
-                        client.comments.create.post(comment=u'Good post ' + str(j)*5, id=status_ret.id)
+                        time.sleep(2)
+                        post_comment(client, u'Good post ' + str(j)*5, status_ret.id)
                     time.sleep(5)
-                client.statuses.update.post(status=MESSAGES[count%len(MESSAGES)], visible=2)
+                post_status(client, MESSAGES[count%len(MESSAGES)], 2)
             time.sleep(60)
             for sid in status_ids:
                 client.statuses.destroy.post(sid)
