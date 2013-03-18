@@ -47,7 +47,7 @@ def single(id):
         query = query.filter(db.and_(Article.status==3,
                                      Article.visibility<3))
     article = query.first()
-    if not article: abort(404) 
+    if not article: abort(404)
     return render_template('blog/single.html', article=article)
 
 
@@ -62,7 +62,7 @@ def new():
         db.session.commit()
         flash('New article added!', 'success')
         return redirect(url_for('blog.edit', id=article.id))
-        
+
     kwargs = {
         'form'   : form,
         'action' : url_for('blog.new'),
@@ -83,7 +83,7 @@ def edit(id):
         flash('Updated!', 'success')
         return redirect(url_for('blog.edit', id=article.id))
     form.process(obj=article)
-    
+
     kwargs = {
         'form'      : form,
         'action'    : url_for('blog.edit', id=id),
@@ -92,7 +92,7 @@ def edit(id):
     }
     return render_template('blog/new-edit.html', **kwargs)
 
-                           
+
 
 
 @blogview.route('/delete/<int:id>', methods=['GET', 'POST'])
@@ -102,9 +102,9 @@ def delete(id):
     db.session.commit()
     flash(u'Article: <%s> Deleted!' % article.title, 'success')
     return redirect('/blog/')
-    
+
 @blogview.context_processor
 def inject_navid():
     return dict(navid=moduleid)
-    
+
 navbar.add(moduleid, moduleid.title(), '/%s/' % moduleid)

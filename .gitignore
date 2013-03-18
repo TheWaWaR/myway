@@ -5,6 +5,7 @@
 
 # Custom
 tokens
+queue
 *local_settings.py
 log
 myway/static/uploads
