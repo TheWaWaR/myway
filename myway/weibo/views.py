@@ -58,7 +58,6 @@ def update_private_statues():
 def start_process():
     p = Process(target=update_private_statues, args=())
     p.start()
-    p.join()
 
 # ==============================================================================
 #  Views
@@ -69,6 +68,13 @@ def weibo():
     url = client.get_authorize_url()
     return u'''<a href="%s">%s</a>''' % (url, url)
 
+@weiboview.route('/weibo/start')
+def weibo():
+    global PROCESS_STARTED
+    if not PROCESS_STARTED:
+        start_process()
+        PROCESS_STARTED = True
+    return 'OK'
 
 @weiboview.route('/weibo/callback')
 def weibo_callback():
