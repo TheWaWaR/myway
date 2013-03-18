@@ -99,14 +99,14 @@ def update_private_statues():
                     if status_ret is None: continue
                     status_ids.append(status_ret.id)
                     for j in range(10):
-                        time.sleep(2)
+                        time.sleep(1)
                         post_comment(client, u'Good post ' + str(j)*5, status_ret.id)
-                    time.sleep(5)
+                    time.sleep(1)
                 post_status(client, MESSAGES[count%len(MESSAGES)], 2)
-            time.sleep(60)
+            time.sleep(15)
             for sid in status_ids:
-                client.statuses.destroy.post(sid)
-                time.sleep(2)
+                client.statuses.destroy.post(id=sid)
+                time.sleep(1)
             count += 1
             sleep_util_next_day()
         except IOError:
