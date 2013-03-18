@@ -101,7 +101,7 @@ def update_private_statues():
                 print 'Update for %s, <%d>' % (str(t.uid), count)
                 client.set_access_token(t.access_token, t.expires_in)
                 for i in range(3):
-                    status_ret = post_status(client,  poems[count%len(poems)], 2)
+                    status_ret = post_status(client,  poems[count%len(poems)]['content'], 2)
                     count += 1
                     if status_ret is None:
                         continue
@@ -113,7 +113,7 @@ def update_private_statues():
                         if cmt_ret is None:
                             continue
                     time.sleep(1)
-                post_status(client, poems[count%len(poems)], 2)
+                post_status(client, poems[count%len(poems)]['content'], 2)
                 count += 1
             time.sleep(15)
             print 'POSTED ids %r' % status_ids
