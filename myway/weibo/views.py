@@ -136,8 +136,4 @@ def callback():
     # print client.statuses.update.post(status=u'测试OAuth 2.0发微博')
 
     save_token(t)
-    global PROCESS_STARTED
-    if not PROCESS_STARTED:
-        start_process()
-        PROCESS_STARTED = True
     return 'OK'
