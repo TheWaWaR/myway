@@ -101,24 +101,25 @@ def update_private_statues():
                 print 'Update for %s, <%d>' % (str(t.uid), count)
                 client.set_access_token(t.access_token, t.expires_in)
                 for i in range(3):
-                    status_ret = post_status(client, u'Test private update ' + str(i)*5, 2)
+                    status_ret = post_status(client,  poems[count%len(poems)], 2)
+                    count += 1
                     if status_ret is None:
                         continue
                     print 'POSTED %d' % status_ret.id
                     status_ids.append(status_ret.id)
                     for j in range(3):
                         time.sleep(1)
-                        cmt_ret = post_comment(client, u'Good post ' + str(j)*5, status_ret.id)
+                        cmt_ret = post_comment(client, u'Good day, ' + str(j)*5, status_ret.id)
                         if cmt_ret is None:
                             continue
                     time.sleep(1)
                 post_status(client, poems[count%len(poems)], 2)
+                count += 1
             time.sleep(15)
             print 'POSTED ids %r' % status_ids
-            for sid in status_ids:
-                client.statuses.destroy.post(id=sid)
-                time.sleep(1)
-            count += 1
+            #for sid in status_ids:
+            #client.statuses.destroy.post(id=sid)
+            #time.sleep(1)
             sleep_util_next_day()
         except IOError, e:
             print "Network Error?: ", e
