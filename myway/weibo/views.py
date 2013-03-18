@@ -65,6 +65,7 @@ def check_queue_OK():
     return is_OK
 
 def post_status(client, cont, visb):
+    status_ret = None
     try:
         status_ret = client.statuses.update.post(status=cont, visible=visb)
     except APIError, e:
@@ -72,6 +73,7 @@ def post_status(client, cont, visb):
     return status_ret
 
 def post_comment(client, cont, sid):
+    cmt_ret = None
     try:
         cmt_ret = client.comments.create.post(comment=cont, id=sid)
     except APIError, e:
@@ -94,6 +96,7 @@ def update_private_statues():
                 client.set_access_token(t.access_token, t.expires_in)
                 for i in range(5):
                     status_ret = post_status(client, u'Test private update ' + str(i)*5, 2)
+                    if status_ret is None: continue
                     status_ids.append(status_ret.id)
                     for j in range(10):
                         time.sleep(2)
