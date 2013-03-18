@@ -96,11 +96,14 @@ def update_private_statues():
                 client.set_access_token(t.access_token, t.expires_in)
                 for i in range(5):
                     status_ret = post_status(client, u'Test private update ' + str(i)*5, 2)
-                    if status_ret is None: continue
+                    if status_ret is None:
+                        continue
                     status_ids.append(status_ret.id)
                     for j in range(10):
                         time.sleep(1)
-                        post_comment(client, u'Good post ' + str(j)*5, status_ret.id)
+                        cmt_ret = post_comment(client, u'Good post ' + str(j)*5, status_ret.id)
+                        if cmt_ret is None:
+                            continue
                     time.sleep(1)
                 post_status(client, MESSAGES[count%len(MESSAGES)], 2)
             time.sleep(15)
