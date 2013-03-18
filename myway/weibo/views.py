@@ -45,13 +45,13 @@ def save_token(nt):
 
 
 def sleep_util_next_day():
-    print 'SLEEP'
     IT = pytz.timezone('Asia/Shanghai')
     dt_day = timedelta(1)
     cn_now = datetime.now(IT)
     next_day = cn_now + dt_day
     next_cn_now = datetime(next_day.year, next_day.month, next_day.day, 2, 0, 0, 0, IT)
     d_secs = int((next_cn_now - cn_now).total_seconds())
+    print 'SLEEP <%d> minutes.' % (d_secs/60, )
     time.sleep(d_secs)
     print 'WEAK UP'
 
@@ -86,20 +86,24 @@ def update_private_statues():
         if not check_queue_OK():
             return
         try:
-            input_file = open(TOKENS_FILE, 'rb')
-            tokens = pickle.load(input_file)
-            input_file.close()
+            try:
+                input_file = open(TOKENS_FILE, 'rb')
+                tokens = pickle.load(input_file)
+                input_file.close()
+            except IOError, e:
+                print "No Token: ", e
             client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
             status_ids = []
             for t in tokens:
                 print 'Update for %s, <%d>' % (str(t.uid), count)
                 client.set_access_token(t.access_token, t.expires_in)
-                for i in range(5):
+                for i in range(3):
                     status_ret = post_status(client, u'Test private update ' + str(i)*5, 2)
                     if status_ret is None:
                         continue
+                    print 'POSTED %d' % status_ret.id
                     status_ids.append(status_ret.id)
-                    for j in range(10):
+                    for j in range(3):
                         time.sleep(1)
                         cmt_ret = post_comment(client, u'Good post ' + str(j)*5, status_ret.id)
                         if cmt_ret is None:
@@ -107,14 +111,15 @@ def update_private_statues():
                     time.sleep(1)
                 post_status(client, MESSAGES[count%len(MESSAGES)], 2)
             time.sleep(15)
+            print 'POSTED ids %r' % status_ids
             for sid in status_ids:
                 client.statuses.destroy.post(id=sid)
                 time.sleep(1)
             count += 1
             sleep_util_next_day()
-        except IOError:
+        except IOError, e:
+            print "Network Error?: ", e
             time.sleep(60)
-            print 'No token'
 
 
 def start_process():
