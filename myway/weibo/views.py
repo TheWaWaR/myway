@@ -4,6 +4,7 @@
 import os
 import pickle
 import time
+import random
 from datetime import datetime, timedelta
 import pytz
 from multiprocessing import Process
@@ -72,6 +73,8 @@ def post_status(client, cont, visb):
         status_ret = client.statuses.update.post(status=cont, visible=visb)
     except APIError, e:
         print e
+    except Exception, e:
+        print "OTHER Exception: ", e
     return status_ret
 
 def post_comment(client, cont, sid):
@@ -80,10 +83,20 @@ def post_comment(client, cont, sid):
         cmt_ret = client.comments.create.post(comment=cont, id=sid)
     except APIError, e:
         print e
+    except Exception, e:
+        print "OTHER Exception: ", e
     return cmt_ret
+
+
+def get_poem(poems, count):
+    poem = poems[count%len(poems)]
+    num_title = poem['num_title']
+    content = poem['content']
+    return '%s. %s' % (num_title, content)
 
 def update_private_statues():
     count = 0
+    r = random.Random()
     poems = load_messages()
     while True:
         if not check_queue_OK():
@@ -100,23 +113,23 @@ def update_private_statues():
             for t in tokens:
                 print 'Update for %s, <%d>' % (str(t.uid), count)
                 client.set_access_token(t.access_token, t.expires_in)
-                for i in range(3):
-                    status_ret = post_status(client,  poems[count%len(poems)]['content'], 2)
+                for i in range(5):
+                    status_ret = post_status(client, get_poem(poems, count) , 2)
                     count += 1
                     if status_ret is None:
                         continue
                     print 'POSTED %d' % status_ret.id
                     status_ids.append(status_ret.id)
-                    for j in range(3):
+                    for j in range(10):
                         time.sleep(1)
-                        cmt_ret = post_comment(client, u'Good day, ' + str(j)*5, status_ret.id)
+                        cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
                         if cmt_ret is None:
                             continue
                     time.sleep(1)
-                post_status(client, poems[count%len(poems)]['content'], 2)
+                print 'POSTED ids %r' % status_ids
+                status_ret = post_status(client, get_poem(poems, count) , 2)
                 count += 1
-            time.sleep(15)
-            print 'POSTED ids %r' % status_ids
+                time.sleep(3600)
             #for sid in status_ids:
             #client.statuses.destroy.post(id=sid)
             #time.sleep(1)
