@@ -121,11 +121,11 @@ def update_private_statues():
                     print 'POSTED %d' % status_ret.id
                     status_ids.append(status_ret.id)
                     for j in range(10):
-                        time.sleep(1)
+                        time.sleep(3)
                         cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
                         if cmt_ret is None:
                             continue
-                    time.sleep(1)
+                    time.sleep(3)
                 print 'POSTED ids %r' % status_ids
                 status_ret = post_status(client, get_poem(poems, count) , 2)
                 count += 1
