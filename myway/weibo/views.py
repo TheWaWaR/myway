@@ -98,15 +98,37 @@ def get_poem(poems, count):
     content = poem['content']
     return '%s. %s' % (num_title, content)
 
+def do_task(client, t, poems, count):
+    '''Do post statuses task then return the new count'''
+    r = random.Random()
+    status_ids = []
+    print MARK + 'Update for user <%s>, count <%d>' % (str(t.uid), count)
+    client.set_access_token(t.access_token, t.expires_in)
+    for i in range(6):
+        status_ret = post_status(client, get_poem(poems, count) , 2)
+        count += 1
+        if status_ret is None:
+            continue
+        status_ids.append(status_ret.id)
+        for j in range(9):
+            time.sleep(5)
+            cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
+            if cmt_ret is None:
+                continue
+        time.sleep(3)
+    print MARK + 'POSTED ids: %r' % status_ids
+    return count
+
+
 def update_private_statues(wait):
     count = 0
-    r = random.Random()
     poems = load_messages()
     if wait == 'YES':
         sleep_util_next_day()
 
     while True:
         if not check_queue_OK():
+            print MARK + '<STOP> SIGNAL from file'
             return
         try:
             try:
@@ -116,27 +138,10 @@ def update_private_statues(wait):
             except IOError, e:
                 print MARK + "No Token: ", e
             client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
-            status_ids = []
             for t in tokens:
-                print MARK + 'Update for %s, <%d>' % (str(t.uid), count)
-                client.set_access_token(t.access_token, t.expires_in)
-                for i in range(6):
-                    status_ret = post_status(client, get_poem(poems, count) , 2)
-                    count += 1
-                    if status_ret is None:
-                        continue
-                    print MARK + 'POSTED %d' % status_ret.id
-                    status_ids.append(status_ret.id)
-                    for j in range(9):
-                        time.sleep(5)
-                        cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
-                        if cmt_ret is None:
-                            continue
-                    time.sleep(3)
+                count = do_task(client, t, poems, count)
                 time.sleep(3600)
-            #for sid in status_ids:
-            #client.statuses.destroy.post(id=sid)
-            #time.sleep(1)
+
             sleep_util_next_day()
         except IOError, e:
             print MARK + "Network Error?: ", e
@@ -148,6 +153,7 @@ def start_process(wait):
     p.start()
     PROCESS_POOL[p.pid] = p
     print MARK + 'Process started!'
+    return p
 
 
 # ==============================================================================
@@ -164,10 +170,12 @@ def register():
 def start():
     wait = request.args.get('wait', 'YES')
     global PROCESS_STARTED
+    p = None
     if not PROCESS_STARTED:
-        start_process(wait)
+        p = start_process(wait)
         PROCESS_STARTED = True
-    return 'OK'
+    ret = p.pid if p else 'None'
+    return 'OK, <%r>' % ret
 
 
 @weiboview.route('/stop')
@@ -175,12 +183,15 @@ def stop():
     with open(QUEUE_FILE, 'w') as f:
         f.write('STOP')
 
-    global PROCESS_POOL
+    global PROCESS_POOL, PROCESS_STARTED
+    pids = []
     for p in PROCESS_POOL:
         print MARK + "STOP process:" + str(p.pid)
+        pids.append(p.pid)
         p.terminate()
     PROCESS_POOL = []
-    return 'OK'
+    PROCESS_STARTED = False
+    return 'OK, <%r>' % pids
 
 
 @weiboview.route('/callback')
