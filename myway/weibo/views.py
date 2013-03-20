@@ -17,10 +17,13 @@ weiboview = Blueprint(moduleid, __name__, url_prefix='/' + moduleid)
 APP_KEY = '781743531'
 APP_SECRET = '90849f6986665f841090d2e245e9f31c'
 CALLBACK_URL = 'http://ahorn.me/weibo/callback'
+
 POMES_FILE = 'FeiNiaoJi.txt'
 TOKENS_FILE = 'tokens'
 QUEUE_FILE = 'queue'
+MARK = '>>>[WEIBO] '
 PROCESS_STARTED = False
+PROCESS_POOL = {}
 
 def load_messages():
     poems = None
@@ -36,7 +39,7 @@ def save_token(nt):
         tokens = pickle.load(input_file)
         input_file.close()
     except IOError:
-        print 'INIT tokens file'
+        print MARK + 'INIT tokens file'
 
     new_token_dict = {}
     for t in tokens + [nt]:
@@ -54,9 +57,9 @@ def sleep_util_next_day():
     next_day = cn_now + dt_day
     next_cn_now = datetime(next_day.year, next_day.month, next_day.day, 2, 0, 0, 0, IT)
     d_secs = int((next_cn_now - cn_now).total_seconds())
-    print 'SLEEP <%d> minutes.' % (d_secs/60, )
+    print MARK + 'SLEEP <%d> minutes.' % (d_secs/60, )
     time.sleep(d_secs)
-    print 'WEAK UP'
+    print MARK + 'WEAK UP'
 
 def check_queue_OK():
     is_OK = True
@@ -72,19 +75,20 @@ def post_status(client, cont, visb):
     try:
         status_ret = client.statuses.update.post(status=cont, visible=visb)
     except APIError, e:
-        print e
+        print MARK + "(status): ", e
     except Exception, e:
-        print "OTHER Exception: ", e
+        print MARK + "OTHER Exception(status): ", e
     return status_ret
+
 
 def post_comment(client, cont, sid):
     cmt_ret = None
     try:
         cmt_ret = client.comments.create.post(comment=cont, id=sid)
     except APIError, e:
-        print e
+        print MARK + "(comment): ", e
     except Exception, e:
-        print "OTHER Exception: ", e
+        print MARK + "OTHER Exception(comment): ", e
     return cmt_ret
 
 
@@ -94,10 +98,13 @@ def get_poem(poems, count):
     content = poem['content']
     return '%s. %s' % (num_title, content)
 
-def update_private_statues():
+def update_private_statues(wait):
     count = 0
     r = random.Random()
     poems = load_messages()
+    if wait == 'YES':
+        sleep_util_next_day()
+
     while True:
         if not check_queue_OK():
             return
@@ -107,41 +114,40 @@ def update_private_statues():
                 tokens = pickle.load(input_file)
                 input_file.close()
             except IOError, e:
-                print "No Token: ", e
+                print MARK + "No Token: ", e
             client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
             status_ids = []
             for t in tokens:
-                print 'Update for %s, <%d>' % (str(t.uid), count)
+                print MARK + 'Update for %s, <%d>' % (str(t.uid), count)
                 client.set_access_token(t.access_token, t.expires_in)
-                for i in range(5):
+                for i in range(6):
                     status_ret = post_status(client, get_poem(poems, count) , 2)
                     count += 1
                     if status_ret is None:
                         continue
-                    print 'POSTED %d' % status_ret.id
+                    print MARK + 'POSTED %d' % status_ret.id
                     status_ids.append(status_ret.id)
-                    for j in range(10):
-                        time.sleep(3)
+                    for j in range(9):
+                        time.sleep(5)
                         cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
                         if cmt_ret is None:
                             continue
                     time.sleep(3)
-                print 'POSTED ids %r' % status_ids
-                status_ret = post_status(client, get_poem(poems, count) , 2)
-                count += 1
                 time.sleep(3600)
             #for sid in status_ids:
             #client.statuses.destroy.post(id=sid)
             #time.sleep(1)
             sleep_util_next_day()
         except IOError, e:
-            print "Network Error?: ", e
+            print MARK + "Network Error?: ", e
             time.sleep(60)
 
 
-def start_process():
-    p = Process(target=update_private_statues, args=())
+def start_process(wait):
+    p = Process(target=update_private_statues, args=(wait,))
     p.start()
+    PROCESS_POOL[p.pid] = p
+    print MARK + 'Process started!'
 
 
 # ==============================================================================
@@ -153,11 +159,13 @@ def register():
     url = client.get_authorize_url()
     return u'''<a href="%s">%s</a>''' % (url, url)
 
+
 @weiboview.route('/start')
 def start():
+    wait = request.args.get('wait', 'YES')
     global PROCESS_STARTED
     if not PROCESS_STARTED:
-        start_process()
+        start_process(wait)
         PROCESS_STARTED = True
     return 'OK'
 
@@ -166,12 +174,19 @@ def start():
 def stop():
     with open(QUEUE_FILE, 'w') as f:
         f.write('STOP')
+
+    global PROCESS_POOL
+    for p in PROCESS_POOL:
+        print MARK + "STOP process:" + str(p.pid)
+        p.terminate()
+    PROCESS_POOL = []
     return 'OK'
+
 
 @weiboview.route('/callback')
 def callback():
     code = request.args.get('code', '')
-    print 'New CODE: ' + code
+    print MARK + 'New CODE: ' + code
     client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
     t = client.request_access_token(code)
     access_token = t.access_token # 新浪返回的token，类似abc123xyz456
@@ -179,7 +194,7 @@ def callback():
 
     # TODO: 在此可保存access token
     client.set_access_token(access_token, expires_in)
-    # print client.statuses.update.post(status=u'测试OAuth 2.0发微博')
+    # print MARK + client.statuses.update.post(status=u'测试OAuth 2.0发微博')
 
     save_token(t)
     return 'OK'

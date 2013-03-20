@@ -1,0 +1,29 @@
+
+* Goal
+  1. Own the score
+  2. Analysis some user
+
+* Actions
+** get token (register, callback)
+** start new process
+*** args
+    + process.type
+*** return
+    + process.id
+** stop some process
+*** args
+    + process.id
+*** return
+    + successed or failed
+** list all process
+** list all private statuses
+** delete all private statuses before date
+*** args
+    + date
+** post some statuses
+*** args
+    + amount
+    + visible
+    + content [the poem ids]
+*** return
+    + statuses.ids
