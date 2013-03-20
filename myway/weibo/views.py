@@ -152,6 +152,7 @@ def start_process(wait):
     p = Process(target=update_private_statues, args=(wait,))
     p.daemon = True
     p.start()
+    global PROCESS_POOL
     PROCESS_POOL[p.pid] = p
     print MARK + 'Process started!'
     return p
@@ -191,7 +192,7 @@ def stop():
         print MARK + "STOP process:" + str(pid)
         pids.append(pid)
         p.terminate()
-    PROCESS_POOL = []
+    PROCESS_POOL = {}
     PROCESS_STARTED = False
     return 'OK, <%r>' % pids
 
