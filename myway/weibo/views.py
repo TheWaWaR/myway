@@ -185,9 +185,10 @@ def stop():
 
     global PROCESS_POOL, PROCESS_STARTED
     pids = []
-    for p in PROCESS_POOL:
-        print MARK + "STOP process:" + str(p.pid)
-        pids.append(p.pid)
+    for pid in PROCESS_POOL:
+        p = PROCESS_STARTED[pid]
+        print MARK + "STOP process:" + str(pid)
+        pids.append(pid)
         p.terminate()
     PROCESS_POOL = []
     PROCESS_STARTED = False
