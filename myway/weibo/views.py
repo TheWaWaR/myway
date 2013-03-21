@@ -139,6 +139,7 @@ def update_private_statues(wait):
             except IOError, e:
                 print MARK + "No Token: ", e
             client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+            print MARK + 'One task started!'
             for t in tokens:
                 count = do_task(client, t, poems, count)
                 time.sleep(3600)
@@ -172,6 +173,7 @@ def register():
 @weiboview.route('/start')
 def start():
     wait = request.args.get('wait', 'YES')
+    print MARK + 'wait: ', wait
     global PROCESS_STARTED
     p = None
     if not PROCESS_STARTED:
