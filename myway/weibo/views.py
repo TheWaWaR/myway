@@ -136,15 +136,17 @@ def update_private_statues(wait):
                 input_file = open(TOKENS_FILE, 'rb')
                 tokens = pickle.load(input_file)
                 input_file.close()
+
+                client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+                print MARK + 'One task started!'
+                for t in tokens:
+                    count = do_task(client, t, poems, count)
+                    time.sleep(3600)
+
+                sleep_util_next_day()
             except IOError, e:
                 print MARK + "No Token: ", e
-            client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
-            print MARK + 'One task started!'
-            for t in tokens:
-                count = do_task(client, t, poems, count)
-                time.sleep(3600)
-
-            sleep_util_next_day()
+                time.sleep(360)
         except IOError, e:
             print MARK + "Network Error?: ", e
             time.sleep(60)
