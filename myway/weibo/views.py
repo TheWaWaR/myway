@@ -63,6 +63,7 @@ def sleep_util_next_day():
 
 def check_queue_OK():
     is_OK = True
+    return is_OK  # !!! For test !!!
     if os.path.isfile(QUEUE_FILE):
         with open(QUEUE_FILE, 'r') as f:
             l = f.readline()
@@ -154,7 +155,7 @@ def start_process(wait):
     p.start()
     global PROCESS_POOL
     PROCESS_POOL[p.pid] = p
-    print MARK + 'Process started!'
+    print MARK + 'Process started <%d>!' % p.pid
     return p
 
 
@@ -182,9 +183,6 @@ def start():
 
 @weiboview.route('/stop')
 def stop():
-    with open(QUEUE_FILE, 'w') as f:
-        f.write('STOP')
-
     global PROCESS_POOL, PROCESS_STARTED
     pids = []
     for pid in PROCESS_POOL:
