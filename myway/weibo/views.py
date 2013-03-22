@@ -81,7 +81,8 @@ def post_status(visb):
             status_ret = CLIENT.statuses.update.post(status=cont, visible=visb)
         except APIError, e:
             print MARK + "(status).%d: " % i, e
-            if e.rrror_code == '20019':
+            if e.error_code == 20019:
+                print MARK + 'New poem'
                 cont = get_poem()
         except Exception, e:
             print MARK + "OTHER Exception(status).%d: " % i, e
@@ -134,7 +135,7 @@ def do_task(t, status_num=6, cmt_num=50):
     print MARK + 'POSTED ids: %r' % status_ids
 
 
-def update_private_statues(wait, start):
+def update_private_statues(wait):
     if wait == 'YES':
         sleep_util_next_day()
 
@@ -162,8 +163,8 @@ def update_private_statues(wait, start):
             time.sleep(60)
 
 
-def start_process(wait, start):
-    p = Process(target=update_private_statues, args=(wait, start))
+def start_process(wait):
+    p = Process(target=update_private_statues, args=(wait))
     p.daemon = True
     p.start()
     global PROCESS_POOL
@@ -188,6 +189,7 @@ def register():
 
 @weiboview.route('/start')
 def start():
+    global PROCESS_STARTED, COUNT
     wait = request.args.get('wait', 'YES')
     start = request.args.get('start', 0)
     try:
@@ -197,11 +199,11 @@ def start():
         print MARK + 'Parse start Error:', e
     print MARK + 'wait: ', wait
     print MARK + 'start: ', start
-    global PROCESS_STARTED
+    COUNT = start
     p = None
     if not PROCESS_STARTED:
         PROCESS_STARTED = True
-        p = start_process(wait, start)
+        p = start_process(wait)
     ret = p.pid if p else 'None'
     return 'OK, <%r>' % ret
 
