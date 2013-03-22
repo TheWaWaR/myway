@@ -71,25 +71,29 @@ def check_queue_OK():
                 is_OK = False
     return is_OK
 
+
 def post_status(client, cont, visb):
     status_ret = None
-    try:
-        status_ret = client.statuses.update.post(status=cont, visible=visb)
-    except APIError, e:
-        print MARK + "(status): ", e
-    except Exception, e:
-        print MARK + "OTHER Exception(status): ", e
+    for i in range(9):
+        try:
+            status_ret = client.statuses.update.post(status=cont, visible=visb)
+        except APIError, e:
+            print MARK + "(status).%d: " % i, e
+        except Exception, e:
+            print MARK + "OTHER Exception(status).%d: " % i, e
     return status_ret
 
 
 def post_comment(client, cont, sid):
     cmt_ret = None
-    try:
-        cmt_ret = client.comments.create.post(comment=cont, id=sid)
-    except APIError, e:
-        print MARK + "(comment): ", e
-    except Exception, e:
-        print MARK + "OTHER Exception(comment): ", e
+    for i in range(9):
+        try:
+            cmt_ret = client.comments.create.post(comment=cont, id=sid)
+            break
+        except APIError, e:
+            print MARK + "(comment).%d: " % i , e
+        except Exception, e:
+            print MARK + "OTHER Exception(comment).%d: " % i, e
     return cmt_ret
 
 
@@ -99,19 +103,22 @@ def get_poem(poems, count):
     content = poem['content']
     return '%s. %s' % (num_title, content)
 
-def do_task(client, t, poems, count):
+
+def do_task(client, t, poems, count, status_num=6, cmt_num=50):
     '''Do post statuses task then return the new count'''
     r = random.Random()
     status_ids = []
     print MARK + 'Update for user <%s>, count <%d>' % (str(t.uid), count)
     client.set_access_token(t.access_token, t.expires_in)
-    for i in range(6):
+    cmt_range = cmt_num / status_num + 1
+
+    for i in range(status_num):
         status_ret = post_status(client, get_poem(poems, count) , 2)
         count += 1
         if status_ret is None:
             continue
         status_ids.append(status_ret.id)
-        for j in range(9):
+        for j in range(cmt_range):
             time.sleep(5)
             cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
             if cmt_ret is None:
