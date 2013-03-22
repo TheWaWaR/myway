@@ -81,7 +81,8 @@ def post_status(visb):
             status_ret = CLIENT.statuses.update.post(status=cont, visible=visb)
         except APIError, e:
             print MARK + "(status).%d: " % i, e
-            if e.rrror_code == '20019':
+            if e.error_code == 20019:
+            	print MARK + 'New poem'
                 cont = get_poem()
         except Exception, e:
             print MARK + "OTHER Exception(status).%d: " % i, e
