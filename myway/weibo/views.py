@@ -179,8 +179,8 @@ def start():
     global PROCESS_STARTED
     p = None
     if not PROCESS_STARTED:
-        p = start_process(wait)
         PROCESS_STARTED = True
+        p = start_process(wait)
     ret = p.pid if p else 'None'
     return 'OK, <%r>' % ret
 
@@ -214,4 +214,3 @@ def callback():
 
     save_token(t)
     return 'OK'
-
