@@ -72,23 +72,29 @@ def check_queue_OK():
     return is_OK
 
 
-def post_status(client, cont, visb):
+def post_status(visb):
+    global CLIENT
     status_ret = None
+    cont = get_poem()
     for i in range(9):
         try:
-            status_ret = client.statuses.update.post(status=cont, visible=visb)
+            status_ret = CLIENT.statuses.update.post(status=cont, visible=visb)
         except APIError, e:
             print MARK + "(status).%d: " % i, e
+            if e.rrror_code == '20019':
+                cont = get_poem()
         except Exception, e:
             print MARK + "OTHER Exception(status).%d: " % i, e
     return status_ret
 
 
-def post_comment(client, cont, sid):
+def post_comment(j, sid):
+    global RAND, CLIENT
     cmt_ret = None
     for i in range(9):
         try:
-            cmt_ret = client.comments.create.post(comment=cont, id=sid)
+            cmt = 'Good day, <%d>.' % (RAND.randint(0, 100) + j*100)
+            cmt_ret = CLIENT.comments.create.post(comment=cmt, id=sid)
             break
         except APIError, e:
             print MARK + "(comment).%d: " % i , e
@@ -97,40 +103,38 @@ def post_comment(client, cont, sid):
     return cmt_ret
 
 
-def get_poem(poems, count):
-    poem = poems[count%len(poems)]
+def get_poem():
+    global POEMS, COUNT
+    poem = POEMS[COUNT%len(POEMS)]
     num_title = poem['num_title']
     content = poem['content']
+    COUNT += 1
     return '%s. %s' % (num_title, content)
 
 
-def do_task(client, t, poems, count, status_num=6, cmt_num=50):
+def do_task(t, status_num=6, cmt_num=50):
     '''Do post statuses task then return the new count'''
-    r = random.Random()
+    global CLIENT, COUNT
     status_ids = []
-    print MARK + 'Update for user <%s>, count <%d>' % (str(t.uid), count)
-    client.set_access_token(t.access_token, t.expires_in)
+    print MARK + 'Update for user <%s>, count <%d>' % (str(t.uid), COUNT)
+    CLIENT.set_access_token(t.access_token, t.expires_in)
     cmt_range = cmt_num / status_num + 1
 
     for i in range(status_num):
-        status_ret = post_status(client, get_poem(poems, count) , 2)
-        count += 1
+        status_ret = post_status(2)
         if status_ret is None:
             continue
         status_ids.append(status_ret.id)
         for j in range(cmt_range):
             time.sleep(5)
-            cmt_ret = post_comment(client, 'Good day, <%d>.' % (r.randint(0, 100) + j*100), status_ret.id)
+            cmt_ret = post_comment(j, status_ret.id)
             if cmt_ret is None:
                 continue
         time.sleep(3)
     print MARK + 'POSTED ids: %r' % status_ids
-    return count
 
 
-def update_private_statues(wait):
-    count = 0
-    poems = load_messages()
+def update_private_statues(wait, start):
     if wait == 'YES':
         sleep_util_next_day()
 
@@ -144,10 +148,9 @@ def update_private_statues(wait):
                 tokens = pickle.load(input_file)
                 input_file.close()
 
-                client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
                 print MARK + 'One task started!'
                 for t in tokens:
-                    count = do_task(client, t, poems, count)
+                    do_task(t)
                     time.sleep(3600)
 
                 sleep_util_next_day()
@@ -159,8 +162,8 @@ def update_private_statues(wait):
             time.sleep(60)
 
 
-def start_process(wait):
-    p = Process(target=update_private_statues, args=(wait,))
+def start_process(wait, start):
+    p = Process(target=update_private_statues, args=(wait, start))
     p.daemon = True
     p.start()
     global PROCESS_POOL
@@ -168,6 +171,10 @@ def start_process(wait):
     print MARK + 'Process started <%d>!' % p.pid
     return p
 
+RAND = random.Random()
+CLIENT = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+POEMS = load_messages()
+COUNT = 0
 
 # ==============================================================================
 #  Views
@@ -182,12 +189,19 @@ def register():
 @weiboview.route('/start')
 def start():
     wait = request.args.get('wait', 'YES')
+    start = request.args.get('start', 0)
+    try:
+        start = int(start)
+    except Exception, e:
+        start = 0
+        print MARK + 'Parse start Error:', e
     print MARK + 'wait: ', wait
+    print MARK + 'start: ', start
     global PROCESS_STARTED
     p = None
     if not PROCESS_STARTED:
         PROCESS_STARTED = True
-        p = start_process(wait)
+        p = start_process(wait, start)
     ret = p.pid if p else 'None'
     return 'OK, <%r>' % ret
 
