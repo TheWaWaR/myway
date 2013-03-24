@@ -164,7 +164,7 @@ def update_private_statues(wait):
 
 
 def start_process(wait):
-    p = Process(target=update_private_statues, args=(wait))
+    p = Process(target=update_private_statues, args=(wait, ))
     p.daemon = True
     p.start()
     global PROCESS_POOL
