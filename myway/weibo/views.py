@@ -103,6 +103,14 @@ def post_comment(j, sid):
             print MARK + "OTHER Exception(comment).%d: " % i, e
     return cmt_ret
 
+def delete_statuses(ids):
+    global CLIENT
+    for sid in ids:
+        try:
+            CLIENT.statuses.destroy.post(id=sid)
+        except Exception, e:
+            print MARK + 'Delete status<%r>:' % sid, e
+
 
 def get_poem():
     global POEMS, COUNT
@@ -132,6 +140,8 @@ def do_task(t, status_num=6, cmt_num=50):
             if cmt_ret is None:
                 continue
         time.sleep(3)
+    time.sleep(10)
+    delete_statuses(status_ids[:-1])
     print MARK + 'POSTED ids: %r' % status_ids
 
 
