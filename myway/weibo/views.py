@@ -79,8 +79,9 @@ def post_status(visb):
     for i in range(9):
         try:
             status_ret = CLIENT.statuses.update.post(status=cont, visible=visb)
+            break
         except APIError, e:
-            print MARK + "(status).%d: " % i, e
+            print MARK + "(status).%d: " % i, e, status_ret
             if e.error_code == 20019:
                 print MARK + 'New poem'
                 cont = get_poem()
@@ -98,7 +99,7 @@ def post_comment(j, sid):
             cmt_ret = CLIENT.comments.create.post(comment=cmt, id=sid)
             break
         except APIError, e:
-            print MARK + "(comment).%d: " % i , e
+            print MARK + "(comment).%d: " % i , e, cmt_ret
         except Exception, e:
             print MARK + "OTHER Exception(comment).%d: " % i, e
     return cmt_ret
@@ -127,11 +128,11 @@ def do_task(t, status_num=6, cmt_num=50):
             continue
         status_ids.append(status_ret.id)
         for j in range(cmt_range):
-            time.sleep(5)
+            time.sleep(8)
             cmt_ret = post_comment(j, status_ret.id)
             if cmt_ret is None:
                 continue
-        time.sleep(3)
+        time.sleep(5)
     print MARK + 'POSTED ids: %r' % status_ids
 
 
@@ -164,7 +165,7 @@ def update_private_statues(wait):
 
 
 def start_process(wait):
-    p = Process(target=update_private_statues, args=(wait))
+    p = Process(target=update_private_statues, args=(wait, ))
     p.daemon = True
     p.start()
     global PROCESS_POOL
