@@ -82,7 +82,7 @@ def post_status(visb):
             break
         except APIError, e:
             print MARK + "(status).%d: " % i, e, status_ret
-            if e.error_code == 20019:
+            if e.error_code == 20019 or e.error_code == 20012:
                 print MARK + 'New poem'
                 cont = get_poem()
         except Exception, e:
