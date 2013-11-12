@@ -27,4 +27,4 @@ GALLERY_PERPAGE = 6
 
 from myway.local_settings import *
 # SQLALCHEMY_DATABASE_URI = 'mysql://root:hello123@localhost/myway'
-# ROOT = '/root/Projects/myway/
+# ROOT = '/root/Projects/myway/'

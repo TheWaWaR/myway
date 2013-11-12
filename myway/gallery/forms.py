@@ -2,8 +2,9 @@
 #coding=utf-8
 
 from myway.utils import images
-from flask_wtf import Form, TextField, TextAreaField, SelectField, \
-    FileField, required, file_allowed
+from wtforms.fields import TextField, TextAreaField, SelectField, FileField
+from wtforms.validators import required
+from flask_wtf import Form, file_allowed
 
 class ImageForm(Form):
     image     = FileField(u'Image', validators=[required(message=u'Required!'),

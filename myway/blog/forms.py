@@ -2,7 +2,9 @@
 #coding=utf-8
 
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from flask_wtf import Form, TextField, TextAreaField, SelectField, required
+from wtforms.fields import TextField, TextAreaField, SelectField
+from wtforms.validators import required
+from flask_wtf import Form
 from .models import Category
 
 class ArticleForm(Form):

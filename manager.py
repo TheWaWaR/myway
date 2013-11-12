@@ -38,7 +38,7 @@ def run_product(app=app):
     pass
 
 def run_debug(app=app):
-    app.run(host='0.0.0.0', port=2012, debug=True)
+    app.run(host='0.0.0.0', port=12012, debug=True)
 
 # ==============================================================================
 #  Function dict
